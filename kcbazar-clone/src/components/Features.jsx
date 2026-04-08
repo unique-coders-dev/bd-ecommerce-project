@@ -64,22 +64,22 @@ const Features = () => {
   const getRandomColor = (idx) => softColors[idx % softColors.length];
 
   return (
-    <div className="features-wrapper">
+    <div className="bg-white">
 
       {/* ── Our Uniqueness ── */}
-      <section className="uniqueness-section">
-        <div className="section-container">
-          <h2 className="section-title">Our Uniqueness</h2>
+      <section className="py-12 bg-white">
+        <div className="max-w-[1320px] mx-auto px-4">
+          <h2 className="text-[24px] font-bold text-[#111827] mb-8">Our Uniqueness</h2>
 
           {/* Row 1: 4 columns */}
-          <div className="uniqueness-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             {uniquenessColumns.map((col, idx) => (
-              <div key={idx} className="uniqueness-card" style={{ backgroundColor: getRandomColor(idx) }}>
-                <h3 className="uniqueness-card-title">{col.title}</h3>
-                <ul className="uniqueness-list">
+              <div key={idx} className="p-6 rounded-xl transition-all duration-300 hover:shadow-md border border-black/5" style={{ backgroundColor: getRandomColor(idx) }}>
+                <h3 className="text-lg font-bold text-[#111] mb-4">{col.title}</h3>
+                <ul className="flex flex-col gap-2.5">
                   {col.items.map((item, i) => (
-                    <li key={i} className="uniqueness-list-item">
-                      <img src={checkIcon} alt="check" className="check-icon" />
+                    <li key={i} className="flex gap-3 text-sm text-[#444] leading-relaxed">
+                      <img src={checkIcon} alt="check" className="w-4 h-4 mt-1 flex-shrink-0" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -89,14 +89,14 @@ const Features = () => {
           </div>
 
           {/* Row 2: 2 columns */}
-          <div className="uniqueness-grid uniqueness-grid-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {uniquenessRow2.map((col, idx) => (
-              <div key={idx} className="uniqueness-card" style={{ backgroundColor: getRandomColor(idx + 4) }}>
-                <h3 className="uniqueness-card-title">{col.title}</h3>
-                <ul className="uniqueness-list">
+              <div key={idx} className="p-6 rounded-xl transition-all duration-300 hover:shadow-md border border-black/5" style={{ backgroundColor: getRandomColor(idx + 4) }}>
+                <h3 className="text-lg font-bold text-[#111] mb-4">{col.title}</h3>
+                <ul className="flex flex-col gap-2.5">
                   {col.items.map((item, i) => (
-                    <li key={i} className="uniqueness-list-item">
-                      <img src={checkIcon} alt="check" className="check-icon" />
+                    <li key={i} className="flex gap-3 text-sm text-[#444] leading-relaxed">
+                      <img src={checkIcon} alt="check" className="w-4 h-4 mt-1 flex-shrink-0" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -108,28 +108,28 @@ const Features = () => {
       </section>
 
       {/* ── Shipping & Delivery ── */}
-      <section className="shipping-section">
-        <div className="section-container">
-          <div className="shipping-grid">
-            <div className="shipping-text">
-              <h3 className="shipping-title">নিশ্চিত হোম ডেলিভারি! 🚚</h3>
-              <p className="shipping-desc">
+      <section className="py-12 border-y border-gray-100">
+        <div className="max-w-[1320px] mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-center gap-10">
+            <div className="flex flex-col gap-6">
+              <h3 className="text-[32px] font-extrabold text-[#111] leading-tight">নিশ্চিত হোম ডেলিভারি! 🚚</h3>
+              <p className="text-lg text-[#555] max-w-[500px]">
                 কেসি বাজারে কেনাকাটা করা এখন আরও সহজ। আপনার কাঙ্ক্ষিত পণ্যটি অর্ডার করুন এবং বুঝে নিন আপনার ঘরের দোরগোড়ায়। সারা বাংলাদেশে ক্যাশ অন ডেলিভারি সুবিধা থাকছে আমাদের সাথে।
               </p>
-              <div className="shipping-btns">
-                <a href="tel:09644888889" className="shipping-btn-primary">
+              <div className="flex flex-wrap gap-4">
+                <a href="tel:09644888889" className="flex items-center gap-2 px-8 py-4 bg-[#FF4D6D] text-white rounded-lg font-bold transition-all hover:brightness-110 shadow-lg shadow-[#FF4D6D]/20 active:scale-95 text-sm uppercase">
                   <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 2.15 5.18 2 2 0 0 1 4.11 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 10.91A16 16 0 0 0 13.09 15.9l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z" />
                   </svg> কল করুন অর্ডার করতে
                 </a>
-                <a href="/shop/" className="shipping-btn-secondary">বিস্তারিত জানুন</a>
+                <a href="/shop/" className="flex items-center gap-2 px-8 py-4 border-2 border-[#E5E7EB] text-[#111] rounded-lg font-bold transition-all hover:bg-gray-50 active:scale-95 text-sm uppercase">বিস্তারিত জানুন</a>
               </div>
             </div>
-            <div className="shipping-img-wrap">
+            <div className="overflow-hidden rounded-2xl shadow-xl">
               <img
                 src="https://kcbazar.com/wp-content/uploads/2025/09/shipping--600x440.png"
                 alt="Shipping Delivery"
-                className="shipping-img"
+                className="w-full rounded-2xl transform hover:scale-105 transition-transform duration-700"
               />
             </div>
           </div>
@@ -137,44 +137,44 @@ const Features = () => {
       </section>
 
       {/* ── About KC Bazar ── */}
-      <section className="about-section">
-        <div className="section-container">
-          <div className="about-grid">
-            <div className="about-text">
-              <h2 className="about-title">KC BAZAR</h2>
-              <p className="about-desc">
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-[1320px] mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div className="flex flex-col">
+              <h2 className="text-[40px] font-black text-[#111] tracking-tighter mb-6">KC BAZAR</h2>
+              <p className="text-[#555] mb-4 text-pretty leading-relaxed">
                 কেসি বাজার বাংলাদেশে স্কিনকেয়ার এবং মেকআপ লাভারদের জন্য একটি বিশ্বস্ত নাম। আমরা সরাসরি দক্ষিণ কোরিয়া থেকে অরিজিনাল কোরিয়ান কসমেটিকস এবং স্কিনকেয়ার পণ্য আমদানি করি। আমাদের লক্ষ্য হচ্ছে সল্প মূল্যে সেরা এবং অরিজিনাল পণ্য গ্রাহকদের পৌঁছে দেওয়া।
               </p>
-              <p className="about-desc">
+              <p className="text-[#555] mb-6 text-pretty leading-relaxed">
                 আপনার ত্বকের ধরণ অনুযায়ী সেরা স্কিনকেয়ার সলিউশন দিতে আমাদের রয়েছে অভিজ্ঞ বিউটি কনসাল্টেন্ট। দেশজুড়ে আমাদের রয়েছে একাধিক ফিজিক্যাল শোরুম, যেখানে আপনি পণ্য দেখে কিনতে পারেন।
               </p>
-              <a href="/about-us/" className="about-read-more">Read More</a>
+              <a href="/about-us/" className="inline-block px-10 py-4 bg-[#111] text-white rounded-lg font-bold w-fit hover:bg-black transition-all active:scale-95 shadow-lg shadow-black/10">Read More</a>
             </div>
 
-            <div className="showrooms-col">
-              <h3 className="showrooms-title">Our Showrooms</h3>
-              <div className="showroom-card">
-                <div className="showroom-header">
-                  <span className="showroom-name">গাজীপুর শোরুম</span>
-                  <span className="showroom-icon">📍</span>
+            <div className="flex flex-col gap-6 bg-white p-8 rounded-2xl shadow-sm border border-black/5">
+              <h3 className="text-2xl font-bold text-[#111] mb-2">Our Showrooms</h3>
+              <div className="p-6 bg-gray-50 rounded-xl hover:bg-[#fff0f3] transition-colors border-l-4 border-transparent hover:border-[#FF4D6D] cursor-pointer group">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-bold text-[#111] group-hover:text-[#FF4D6D] transition-colors">গাজীপুর শোরুম</span>
+                  <span className="text-xl">📍</span>
                 </div>
-                <p className="showroom-addr">হাউস-০৬, রোড-০৪, ব্লক-ডি, গাজীপুর চৌরাস্তা</p>
+                <p className="text-sm text-[#666]">হাউস-০৬, রোড-০৪, ব্লক-ডি, গাজীপুর চৌরাস্তা</p>
               </div>
-              <div className="showroom-card">
-                <div className="showroom-header">
-                  <span className="showroom-name">ময়মনসিংহ শোরুম</span>
-                  <span className="showroom-icon">📍</span>
+              <div className="p-6 bg-gray-50 rounded-xl hover:bg-[#fff0f3] transition-colors border-l-4 border-transparent hover:border-[#FF4D6D] cursor-pointer group">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-bold text-[#111] group-hover:text-[#FF4D6D] transition-colors">ময়মনসিংহ শোরুম</span>
+                  <span className="text-xl">📍</span>
                 </div>
-                <p className="showroom-addr">সিটি সেন্টার, ময়মনসিংহ টাউন হল মোড়</p>
+                <p className="text-sm text-[#666]">সিটি সেন্টার, ময়মনসিংহ টাউন হল মোড়</p>
               </div>
-              <div className="showroom-card">
-                <div className="showroom-header">
-                  <span className="showroom-name">উত্তরা শোরুম</span>
-                  <span className="showroom-icon">📍</span>
+              <div className="p-6 bg-gray-50 rounded-xl hover:bg-[#fff0f3] transition-colors border-l-4 border-transparent hover:border-[#FF4D6D] cursor-pointer group">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-bold text-[#111] group-hover:text-[#FF4D6D] transition-colors">উত্তরা শোরুম</span>
+                  <span className="text-xl">📍</span>
                 </div>
-                <p className="showroom-addr">আজমপুর সুপার মার্কেট, উত্তরা ঢাকা</p>
+                <p className="text-sm text-[#666]">আজমপুর সুপার মার্কেট, উত্তরা ঢাকা</p>
               </div>
-              <a href="/showrooms/" className="view-showrooms-btn">সকল শোরুম দেখুন →</a>
+              <a href="/showrooms/" className="text-center font-bold text-[#FF4D6D] mt-2 hover:underline transition-all underline-offset-4">সকল শোরুম দেখুন →</a>
             </div>
           </div>
         </div>

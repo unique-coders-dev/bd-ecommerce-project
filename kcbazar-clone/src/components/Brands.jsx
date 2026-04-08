@@ -1,24 +1,5 @@
 import React, { useState } from 'react';
 
-const BrandCard = ({ brand }) => {
-  const [imgError, setImgError] = useState(false);
-  return (
-    <a href={brand.link} className="brand-logo-card" title={brand.name}>
-      {imgError ? (
-        <span style={{ fontSize: 13, fontWeight: 700, color: '#888', textAlign: 'center', fontFamily: 'Poppins, sans-serif', letterSpacing: '0.5px' }}>
-          {brand.name}
-        </span>
-      ) : (
-        <img
-          src={brand.logo}
-          alt={brand.name}
-          className="brand-logo"
-          onError={() => setImgError(true)}
-        />
-      )}
-    </a>
-  );
-};
 
 const Brands = () => {
   const brands = [
@@ -92,23 +73,27 @@ const Brands = () => {
   ];
 
   return (
-    <section className="brands-section">
-      <div className="section-container">
-        <div className="brands-header">
-          <h2 className="section-title" style={{ marginBottom: 0 }}>Top Brands</h2>
-          <a href="https://kcbazar.com/brand/" className="brands-link">
+    <section className="py-10">
+      <div className="max-w-[1320px] mx-auto px-4">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-[22px] font-bold text-[#111827]">Top Brands</h2>
+          <a href="https://kcbazar.com/brand/" className="text-sm font-semibold text-[#FF4D6D] hover:underline">
             View All Brands →
           </a>
         </div>
 
         {/* Brand Logos Grid */}
-        <div className="brands-grid">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
           {brands.map((brand, idx) => (
-            <BrandCard key={idx} brand={brand} />
+            <a key={idx} href={brand.link} className="h-20 bg-white border border-[#eee] rounded-lg flex items-center justify-center p-4 transition-transform duration-300 hover:scale-[1.05] shadow-sm group" title={brand.name}>
+              <img
+                src={brand.logo}
+                alt={brand.name}
+                className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+              />
+            </a>
           ))}
         </div>
-
-        {/* Brand Names Text Row Removed */}
       </div>
     </section>
   );

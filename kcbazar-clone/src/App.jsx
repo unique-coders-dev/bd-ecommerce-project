@@ -7,6 +7,10 @@ import Products from './components/Products';
 import Features from './components/Features';
 import Footer from './components/Footer';
 import Shop from './pages/Shop';
+import ProductDetails from './pages/ProductDetails';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import OrderComplete from './pages/OrderComplete';
 
 const HomePage = () => (
   <main className="bg-white">
@@ -20,12 +24,18 @@ const HomePage = () => (
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-transparent">
+      <div className="flex flex-col min-h-screen">
         <Header />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/shop" element={<Shop />} />
-        </Routes>
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-complete" element={<OrderComplete />} />
+          </Routes>
+        </main>
         <Footer />
       </div>
     </Router>
