@@ -1,0 +1,58 @@
+@import "tailwindcss";
+@source "../**/*.{js,jsx,ts,tsx}";
+
+@theme {
+  --font-inter: "Inter", "Noto Sans Bengali", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+  --color-primary: #FF4D6D;
+  --color-primary-light: #fff0f3;
+  --color-secondary: #00A86B;
+
+  --animate-marquee: marquee 35s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  *, ::before, ::after {
+    @apply border-gray-200;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-inter text-[#111827] bg-[#f8f9fa] leading-relaxed;
+  }
+}
+
+/* Custom Scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
