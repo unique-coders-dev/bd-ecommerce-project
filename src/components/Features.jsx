@@ -67,12 +67,11 @@ const Features = () => {
   return (
     <div className="bg-white">
 
-      {/* ── Our Uniqueness ── */}
+      {/* ── Our Uniqueness (Hidden) ── */}
+      {/* 
       <section className="py-12 bg-white">
         <div className="max-w-[1320px] mx-auto px-4">
           <h2 className="text-[24px] font-bold text-[#111827] mb-8">Our Uniqueness</h2>
-
-          {/* Row 1: 4 columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             {uniquenessColumns.map((col, idx) => (
               <div key={idx} className="p-6 rounded-xl transition-all duration-300 hover:shadow-md border border-black/5" style={{ backgroundColor: getRandomColor(idx) }}>
@@ -88,8 +87,6 @@ const Features = () => {
               </div>
             ))}
           </div>
-
-          {/* Row 2: 2 columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {uniquenessRow2.map((col, idx) => (
               <div key={idx} className="p-6 rounded-xl transition-all duration-300 hover:shadow-md border border-black/5" style={{ backgroundColor: getRandomColor(idx + 4) }}>
@@ -107,9 +104,10 @@ const Features = () => {
           </div>
         </div>
       </section>
+      */}
 
       {/* ── Shipping & Delivery ── */}
-      <section className="py-12 border-y border-gray-100">
+      <section className="py-12 border-b border-gray-100">
         <div className="max-w-[1320px] mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-center gap-10">
             <div className="flex flex-col gap-6">
@@ -137,7 +135,8 @@ const Features = () => {
         </div>
       </section>
 
-      {/* ── About KC Bazar ── */}
+      {/* ── About KC Bazar (Hidden) ── */}
+      {/* 
       <section className="py-16 bg-gray-50">
         <div className="max-w-[1320px] mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -180,6 +179,7 @@ const Features = () => {
           </div>
         </div>
       </section>
+      */}
 
     </div>
   );

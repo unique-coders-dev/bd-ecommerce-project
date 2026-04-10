@@ -2,13 +2,13 @@
 @source "../**/*.{js,jsx,ts,tsx}";
 
 @theme {
-  --font-inter: "Inter", "Noto Sans Bengali", sans-serif;
+  --font-roboto: "Roboto", "Noto Sans Bengali", sans-serif;
   --font-poppins: "Poppins", sans-serif;
   --color-primary: #FF4D6D;
   --color-primary-light: #fff0f3;
   --color-secondary: #00A86B;
 
-  --animate-marquee: marquee 35s linear infinite;
+  --animate-marquee: marquee 60s linear infinite;
 
   @keyframes marquee {
     from { transform: translateX(0); }
@@ -26,7 +26,7 @@
   }
 
   body {
-    @apply font-inter text-[#111827] bg-[#f8f9fa] leading-relaxed;
+    @apply font-roboto text-[#111827] bg-[#f8f9fa] leading-relaxed;
   }
 }
 

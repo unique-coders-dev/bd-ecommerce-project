@@ -1,8 +1,9 @@
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const roboto = Roboto({
+  weight: ["400", "500", "700", "900"],
+  variable: "--font-roboto",
   subsets: ["latin"],
 });
 
@@ -17,7 +18,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
       </head>
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${roboto.variable} antialiased font-roboto`}>
         {children}
       </body>
     </html>

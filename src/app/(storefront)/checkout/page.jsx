@@ -21,7 +21,7 @@ const Checkout = () => {
   ];
 
   return (
-    <div className="bg-[#f2f2f2] min-h-screen py-10 font-sans">
+    <div className="bg-[#f2f2f2] min-h-screen py-10 font-roboto">
       <div className="max-w-[1320px] mx-auto px-4">
         
         {/* Step Banner */}

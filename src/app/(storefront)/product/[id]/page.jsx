@@ -114,7 +114,7 @@ const ProductDetails = () => {
   ];
 
   return (
-    <div className="bg-[#f2f2f2] min-h-screen font-sans w-full flex flex-col">
+    <div className="bg-[#f2f2f2] min-h-screen font-roboto w-full flex flex-col">
       {/* Breadcrumb Section */}
       <div className="w-full bg-white border-b border-[#e1e1e1] flex-shrink-0 relative z-[40]">
         <div className="max-w-[1320px] mx-auto px-4 py-3 flex items-center text-[13px] text-[#777] w-full">

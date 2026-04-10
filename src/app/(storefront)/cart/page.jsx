@@ -36,12 +36,12 @@ const Cart = () => {
   const [openFaq, setOpenFaq] = useState(0);
 
   return (
-    <div className="bg-[#f2f2f2] min-h-screen py-10 font-sans">
+    <div className="bg-[#f2f2f2] min-h-screen py-10">
       <div className="max-w-[1320px] mx-auto px-4">
         
         {/* Step Banner */}
         <div className="bg-[#FF4D6D] text-white py-8 lg:py-12 rounded-xl mb-10 shadow-lg shadow-[#FF4D6D]/10">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 lg:gap-10 text-sm md:text-xl font-black uppercase tracking-[2px] lg:tracking-[4px]">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 lg:gap-10 text-sm md:text-xl font-black uppercase">
              <span className="opacity-100 flex items-center gap-2">Shopping Cart</span>
              <span className="hidden md:inline opacity-40">→</span>
              <span className="opacity-40">Checkout</span>
@@ -58,7 +58,7 @@ const Cart = () => {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-gray-100 text-[11px] font-black uppercase tracking-widest text-gray-400">
+                    <tr className="border-b border-gray-100 text-[11px] font-black uppercase text-gray-400">
                       <th className="py-6 px-6">Product</th>
                       <th className="py-6 px-4">Price</th>
                       <th className="py-6 px-4">Quantity</th>
@@ -95,7 +95,7 @@ const Cart = () => {
                         <tr>
                             <td colSpan="4" className="py-20 text-center">
                                 <p className="text-gray-400 font-bold mb-4">Your cart is empty!</p>
-                                <Link href="/shop" className="inline-block py-3 px-8 bg-[#FF4D6D] text-white font-black uppercase text-xs tracking-widest rounded-lg">Return To Shop</Link>
+                                <Link href="/shop" className="inline-block py-3 px-8 bg-[#FF4D6D] text-white font-black uppercase text-xs rounded-lg">Return To Shop</Link>
                             </td>
                         </tr>
                     )}
@@ -106,7 +106,7 @@ const Cart = () => {
               <div className="p-6 bg-gray-50/30 flex flex-col md:flex-row justify-between gap-4">
                 <div className="flex gap-2">
                   <input type="text" placeholder="Coupon code" className="h-[46px] px-6 border border-gray-200 rounded-lg bg-white outline-none focus:border-[#FF4D6D]/30 w-full md:w-[240px] text-sm" />
-                  <button className="h-[46px] px-8 bg-[#FF4D6D] text-white font-black uppercase text-xs tracking-widest rounded-lg hover:bg-[#e64462] transition-colors cursor-pointer active:scale-95 whitespace-nowrap">Apply Coupon</button>
+                  <button className="h-[46px] px-8 bg-[#FF4D6D] text-white font-black uppercase text-xs rounded-lg hover:bg-[#e64462] transition-colors cursor-pointer active:scale-95 whitespace-nowrap">Apply Coupon</button>
                 </div>
               </div>
             </div>
@@ -117,32 +117,32 @@ const Cart = () => {
             
             {/* Cart Totals */}
             <div className="bg-white rounded-xl shadow-sm border border-black/5 p-8">
-               <h3 className="text-xl font-black text-[#111] uppercase tracking-tighter mb-8 pb-4 border-b border-gray-100">Cart Totals</h3>
+               <h3 className="text-xl font-black text-[#111] uppercase mb-8 pb-4 border-b border-gray-100">Cart Totals</h3>
                <div className="space-y-6">
                  <div className="flex justify-between items-center text-sm">
-                   <span className="font-bold text-gray-500 uppercase tracking-widest text-[11px]">Subtotal</span>
+                   <span className="font-bold text-gray-500 uppercase text-[11px]">Subtotal</span>
                    <span className="font-black text-[#111]">৳ {calculateSubtotal()}</span>
                  </div>
                  <div className="pt-6 border-t border-gray-100">
                     <div className="flex justify-between items-start mb-4">
-                       <span className="font-bold text-gray-500 uppercase tracking-widest text-[11px] pt-1">Shipment</span>
+                       <span className="font-bold text-gray-500 uppercase text-[11px] pt-1">Shipment</span>
                        <div className="text-right flex flex-col items-end gap-2">
                           <p className="text-[12px] text-gray-400 leading-relaxed max-w-[180px]">Enter your address to view shipping options.</p>
-                          <button className="text-[#FF4D6D] font-black text-[11px] uppercase tracking-widest hover:underline underline-offset-4 cursor-pointer">Calculate shipping</button>
+                          <button className="text-[#FF4D6D] font-black text-[11px] uppercase hover:underline underline-offset-4 cursor-pointer">Calculate shipping</button>
                        </div>
                     </div>
                  </div>
                  <div className="pt-6 border-t border-gray-100 flex justify-between items-center">
-                    <span className="font-black text-[#111] uppercase tracking-widest text-sm">Total</span>
+                    <span className="font-black text-[#111] uppercase text-sm">Total</span>
                     <span className="text-2xl font-black text-[#FF4D6D]">৳ {calculateSubtotal()}</span>
                  </div>
-                 <Link href="/checkout" className="w-full h-[56px] bg-[#FF4D6D] text-white flex items-center justify-center font-black uppercase tracking-[2px] rounded-xl text-sm shadow-xl shadow-[#FF4D6D]/20 hover:bg-[#e64462] transition-all active:scale-[0.98] cursor-pointer mt-4">Proceed To Checkout</Link>
+                 <Link href="/checkout" className="w-full h-[56px] bg-[#FF4D6D] text-white flex items-center justify-center font-black uppercase rounded-xl text-sm shadow-xl shadow-[#FF4D6D]/20 hover:bg-[#e64462] transition-all active:scale-[0.98] cursor-pointer mt-4">Proceed To Checkout</Link>
                </div>
             </div>
 
             {/* Shipping & Delivery FAQ */}
             <div className="bg-white rounded-xl shadow-sm border border-black/5 p-8">
-                <h4 className="text-lg font-black text-[#111] uppercase tracking-tighter mb-6">Shipping & Delivery</h4>
+                <h4 className="text-lg font-black text-[#111] uppercase mb-6">Shipping & Delivery</h4>
                 <div className="space-y-4">
                     {deliveryFaqs.map((faq, i) => (
                         <div key={i} className="border border-gray-50 rounded-lg overflow-hidden">

@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import MenuSidebar from './MenuSidebar';
 
 const Header = () => {
   const [cartOpen, setCartOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navLinks = [
     { label: 'Shop', href: '/shop', hot: false },
@@ -51,19 +53,22 @@ const Header = () => {
       {/* ── Middle Header ── */}
       <div className="bg-white border-b border-[#E5E7EB] py-3">
         <div className="flex items-center justify-between gap-5 max-w-[1320px] mx-auto px-4">
-          {/* Logo (Left) */}
-          <div className="w-[140px] flex-shrink-0">
-            <Link href="/">
-              <img
-                src="https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png"
-                alt="KC Bazar Logo"
-                className="w-full"
-              />
-            </Link>
+          
+          <div className="flex items-center gap-4">
+            {/* Logo */}
+            <div className="w-[140px] flex-shrink-0">
+              <Link href="/">
+                <img
+                  src="https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png"
+                  alt="KC Bazar Logo"
+                  className="w-full"
+                />
+              </Link>
+            </div>
           </div>
 
           {/* Search Box (Middle) */}
-          <div className="flex-1 max-w-[580px] relative">
+          <div className="flex-1 max-w-[580px] relative hidden md:block">
             <input 
               type="text" 
               placeholder="পণ্য অনুসন্ধান করুন..." 
@@ -87,19 +92,6 @@ const Header = () => {
               <div className="flex flex-col">
                 <span className="text-[10px] text-[#6B7280]">Hotline</span>
                 <span className="text-[13px] font-bold">09644-888889</span>
-              </div>
-            </div>
-
-            <div className="hidden lg:flex items-center gap-2.5">
-              <div className="w-9 h-9 text-[#FF4D6D] bg-[#fff0f3] rounded-full flex items-center justify-center">
-                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[10px] text-[#6B7280]">Bangladesh</span>
-                <span className="text-[13px] font-bold">Cash On Delivery</span>
               </div>
             </div>
 
@@ -130,7 +122,16 @@ const Header = () => {
 
       {/* ── Navigation ── */}
       <div className="bg-white border-b border-[#E5E7EB] sticky top-0 z-[1000]">
-        <div className="max-w-[1320px] mx-auto px-4 h-[50px] flex items-center">
+        <div className="max-w-[1320px] mx-auto px-4 h-[50px] flex items-center gap-4">
+          {/* Hamburger Menu (Moved here) */}
+          <button 
+            onClick={() => setSidebarOpen(true)}
+            className="w-10 h-10 rounded-full bg-[#f9f9f9] border border-gray-100 flex items-center justify-center text-[#111] hover:bg-[#FF4D6D] hover:text-white transition-all shadow-sm active:scale-90"
+            aria-label="Toggle Sidebar"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+
           <nav className="flex gap-1 overflow-x-auto no-scrollbar scroll-smooth">
             {navLinks.map((link) => (
               <Link
@@ -146,6 +147,9 @@ const Header = () => {
           </nav>
         </div>
       </div>
+
+      {/* ── Menu Sidebar (New) ── */}
+      <MenuSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* ── Cart Sidebar Drawer ── */}
       {cartOpen && (

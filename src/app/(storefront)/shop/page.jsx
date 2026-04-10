@@ -143,7 +143,7 @@ const Shop = () => {
   };
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen font-sans">
+    <div className="bg-[#f8f9fa] min-h-screen font-roboto">
       <div className="max-w-[1320px] mx-auto px-4 pt-4 pb-12">
         {/* ── Breadcrumbs & Result Count ── */}
         <div className="flex flex-col md:flex-row justify-between items-center py-2.5 mb-4 border-b border-gray-100">

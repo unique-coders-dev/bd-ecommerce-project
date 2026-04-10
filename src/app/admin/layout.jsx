@@ -30,7 +30,7 @@ export default function AdminLayout({ children }) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f1f2f6] flex font-sans">
+    <div className="min-h-screen bg-[#f1f2f6] flex">
       
       {/* Sidebar */}
       <aside 
@@ -45,7 +45,7 @@ export default function AdminLayout({ children }) {
                 <div className="w-8 h-8 bg-[#FF4D6D] rounded-lg flex items-center justify-center shrink-0">
                     <span className="text-white font-black text-xs">KC</span>
                 </div>
-                {sidebarOpen && <span className="text-lg font-black tracking-tighter text-[#111]">Admin Hub</span>}
+                {sidebarOpen && <span className="text-lg font-black text-[#111]">Admin Hub</span>}
              </div>
           </div>
 
@@ -64,7 +64,7 @@ export default function AdminLayout({ children }) {
                     <div className={`${active ? 'text-white' : 'text-gray-400 group-hover:text-[#FF4D6D]'} transition-colors`}>
                         {item.icon}
                     </div>
-                    {sidebarOpen && <span className="text-[13px] font-black uppercase tracking-wider">{item.label}</span>}
+                    {sidebarOpen && <span className="text-[13px] font-bold uppercase">{item.label}</span>}
                   </Link>
                );
              })}
@@ -92,15 +92,15 @@ export default function AdminLayout({ children }) {
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16m-7 6h7"/></svg>
               </button>
-              <h2 className="text-sm font-black uppercase tracking-[2px] text-gray-400 hidden md:block">
+              <h2 className="text-sm font-black uppercase text-gray-400 hidden md:block">
                  System Control Panel
               </h2>
            </div>
 
            <div className="flex items-center gap-5">
               <div className="hidden sm:flex flex-col items-end">
-                  <span className="text-[12px] font-black uppercase text-[#111]">Super Admin</span>
-                  <span className="text-[10px] font-bold text-gray-400">admin@kcbazar.com</span>
+                  <span className="text-[12px] font-bold uppercase text-[#111]">Super Admin</span>
+                  <span className="text-[10px] font-medium text-gray-400">admin@kcbazar.com</span>
               </div>
               <div className="w-10 h-10 rounded-full border-2 border-[#FF4D6D]/10 p-0.5">
                   <img src="https://ui-avatars.com/api/?name=Admin&background=FF4D6D&color=fff" alt="admin" className="w-full h-full rounded-full object-cover" />
@@ -109,7 +109,7 @@ export default function AdminLayout({ children }) {
         </header>
 
         {/* Content Section */}
-        <main className="flex-1 p-6 lg:p-10">
+        <main className="flex-1 p-6 lg:p-10 text-base">
             <div className="animate-fadeIn">
                 {children}
             </div>
