@@ -4,8 +4,15 @@
 @theme {
   --font-roboto: "Roboto", "Noto Sans Bengali", sans-serif;
   --font-poppins: "Poppins", sans-serif;
-  --color-primary: #FF4D6D;
-  --color-primary-light: #fff0f3;
+  
+  /* Primary Theme Cluster - Mapped to body variables for dynamic injection */
+  --color-primary: var(--color-primary, #FF4D6D);
+  --color-primary-soft: var(--color-primary-soft, color-mix(in srgb, var(--color-primary, #FF4D6D), white 85%));
+  --color-primary-medium: var(--color-primary-medium, color-mix(in srgb, var(--color-primary, #FF4D6D), white 50%));
+  --color-primary-dark: var(--color-primary-dark, color-mix(in srgb, var(--color-primary, #FF4D6D), black 15%));
+  --color-primary-active: var(--color-primary-active, color-mix(in srgb, var(--color-primary, #FF4D6D), black 5%));
+  --color-primary-light: var(--color-primary-light, color-mix(in srgb, var(--color-primary, #FF4D6D), white 90%));
+  
   --color-secondary: #00A86B;
 
   --animate-marquee: marquee 60s linear infinite;

@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 const MyAccount = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: (
@@ -36,8 +38,8 @@ const MyAccount = () => {
         {/* Header Section */}
         <div className="mb-12">
             <h1 className="text-3xl lg:text-5xl font-black text-[#111] uppercase mb-2">My Account</h1>
-            <div className="h-1.5 w-20 bg-[#FF4D6D] rounded-full"></div>
-            <p className="mt-4 text-gray-400 font-medium">Welcome back, <span className="text-[#FF4D6D] font-bold">Amik</span>! Manage your orders and profile here.</p>
+            <div className="h-1.5 w-20 bg-[var(--color-primary)] rounded-full"></div>
+            <p className="mt-4 text-gray-400 font-medium">Welcome back, <span className="text-[var(--color-primary)] font-bold">Amik</span>! Manage your orders and profile here.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-10">
@@ -48,10 +50,16 @@ const MyAccount = () => {
                 {menuItems.map((item) => (
                     <button
                         key={item.id}
-                        onClick={() => setActiveTab(item.id)}
+                        onClick={() => {
+                            if (item.id === 'logout') {
+                                setShowLogoutModal(true);
+                            } else {
+                                setActiveTab(item.id);
+                            }
+                        }}
                         className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl text-sm font-black uppercase transition-all ${
                             activeTab === item.id 
-                            ? 'bg-[#FF4D6D] text-white shadow-lg shadow-[#FF4D6D]/20' 
+                            ? 'bg-[var(--color-primary)] text-white shadow-lg shadow-[var(--color-primary)]/20' 
                             : 'text-gray-400 hover:bg-gray-50 hover:text-[#111]'
                         }`}
                     >
@@ -65,7 +73,7 @@ const MyAccount = () => {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
                 <h4 className="text-lg font-black uppercase tracking-tight mb-2">Need Help?</h4>
                 <p className="text-xs text-gray-400 font-medium mb-6 leading-relaxed">Our support team is available 24/7 for your beauty needs.</p>
-                <Link href="tel:09644888889" className="inline-flex items-center gap-2 text-[#FF4D6D] font-black text-[11px] uppercase hover:translate-x-1 transition-transform">
+                <Link href="tel:09644888889" className="inline-flex items-center gap-2 text-[var(--color-primary)] font-black text-[11px] uppercase hover:translate-x-1 transition-transform">
                     Call 09644888889 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M14 5l7 7-7 7"/></svg>
                 </Link>
             </div>
@@ -78,14 +86,14 @@ const MyAccount = () => {
             {activeTab === 'dashboard' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-white p-8 rounded-2xl shadow-sm border border-black/5 flex flex-col gap-4">
-                        <div className="w-12 h-12 bg-pink-50 text-[#FF4D6D] rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-primary-light text-[var(--color-primary)] rounded-xl flex items-center justify-center">
                             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                         </div>
                         <div>
                             <h3 className="text-sm font-black text-[#111] uppercase mb-1">Recent Orders</h3>
                             <p className="text-[12px] text-gray-400 font-medium">You have 2 active orders this month.</p>
                         </div>
-                        <button onClick={() => setActiveTab('orders')} className="mt-2 text-[#FF4D6D] text-[11px] font-black uppercase tracking-widest hover:underline cursor-pointer">View All Orders</button>
+                        <button onClick={() => setActiveTab('orders')} className="mt-2 text-[var(--color-primary)] text-[11px] font-black uppercase tracking-widest hover:underline cursor-pointer">View All Orders</button>
                     </div>
                     <div className="bg-white p-8 rounded-2xl shadow-sm border border-black/5 flex flex-col gap-4">
                         <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center">
@@ -95,7 +103,7 @@ const MyAccount = () => {
                             <h3 className="text-sm font-black text-[#111] uppercase mb-1">Saved Addresses</h3>
                             <p className="text-[12px] text-gray-400 font-medium">1 Shipping address, 1 Billing address.</p>
                         </div>
-                        <button onClick={() => setActiveTab('addresses')} className="mt-2 text-[#FF4D6D] text-[11px] font-black uppercase tracking-widest hover:underline cursor-pointer">Manage Addresses</button>
+                        <button onClick={() => setActiveTab('addresses')} className="mt-2 text-[var(--color-primary)] text-[11px] font-black uppercase tracking-widest hover:underline cursor-pointer">Manage Addresses</button>
                     </div>
                 </div>
             )}
@@ -128,7 +136,7 @@ const MyAccount = () => {
                                         </td>
                                         <td className="px-8 py-6 text-sm font-black text-[#111]">{order.total} for {order.items} item</td>
                                         <td className="px-8 py-6">
-                                            <button className="text-[#FF4D6D] font-black text-[11px] uppercase border-2 border-[#FF4D6D] px-4 py-2 rounded-lg hover:bg-[#FF4D6D] hover:text-white transition-all cursor-pointer">View</button>
+                                            <button className="text-[var(--color-primary)] font-black text-[11px] uppercase border-2 border-[var(--color-primary)] px-4 py-2 rounded-lg hover:bg-[var(--color-primary)] hover:text-white transition-all cursor-pointer">View</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -144,7 +152,7 @@ const MyAccount = () => {
                     <div className="bg-white p-10 rounded-2xl shadow-sm border border-black/5 space-y-6">
                         <div className="flex justify-between items-center border-b border-gray-100 pb-4">
                             <h3 className="text-lg font-black text-[#111] uppercase">Billing Address</h3>
-                            <button className="text-[#FF4D6D] text-[11px] font-black uppercase hover:underline cursor-pointer">Edit</button>
+                            <button className="text-[var(--color-primary)] text-[11px] font-black uppercase hover:underline cursor-pointer">Edit</button>
                         </div>
                         <div className="space-y-2 text-sm text-gray-500 font-bold leading-relaxed not-italic">
                             <p className="text-[#111] font-black uppercase text-[12px] mb-2">Amik</p>
@@ -156,7 +164,7 @@ const MyAccount = () => {
                     <div className="bg-white p-10 rounded-2xl shadow-sm border border-black/5 space-y-6">
                         <div className="flex justify-between items-center border-b border-gray-100 pb-4">
                             <h3 className="text-lg font-black text-[#111] uppercase">Shipping Address</h3>
-                            <button className="text-[#FF4D6D] text-[11px] font-black uppercase tracking-widest hover:underline cursor-pointer">Edit</button>
+                            <button className="text-[var(--color-primary)] text-[11px] font-black uppercase tracking-widest hover:underline cursor-pointer">Edit</button>
                         </div>
                         <div className="space-y-2 text-sm text-gray-500 font-bold leading-relaxed not-italic">
                             <p className="text-[#111] font-black uppercase text-[12px] tracking-widest mb-2">Amik</p>
@@ -174,49 +182,78 @@ const MyAccount = () => {
                     <h3 className="text-xl font-black text-[#111] uppercase tracking-tighter mb-10 pb-4 border-b border-gray-100">Account Details</h3>
                     <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="md:col-span-1">
-                            <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">First Name <span className="text-[#FF4D6D]">*</span></label>
-                            <input type="text" defaultValue="Amik" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                            <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">First Name <span className="text-[var(--color-primary)]">*</span></label>
+                            <input type="text" defaultValue="Amik" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                         </div>
                         <div className="md:col-span-1">
-                            <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Last Name <span className="text-[#FF4D6D]">*</span></label>
-                            <input type="text" defaultValue="Hasan" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                            <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Last Name <span className="text-[var(--color-primary)]">*</span></label>
+                            <input type="text" defaultValue="Hasan" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                         </div>
                         <div className="md:col-span-2">
-                            <label className="block text-[11px] font-black uppercase text-gray-400 mb-2">Display Name <span className="text-[#FF4D6D]">*</span></label>
-                            <input type="text" defaultValue="Amik" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                            <label className="block text-[11px] font-black uppercase text-gray-400 mb-2">Display Name <span className="text-[var(--color-primary)]">*</span></label>
+                            <input type="text" defaultValue="Amik" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                             <p className="mt-2 text-[10px] text-gray-400 font-bold italic">This will be how your name will be displayed in the account section and in reviews.</p>
                         </div>
                         <div className="md:col-span-2">
-                            <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Email Address <span className="text-[#FF4D6D]">*</span></label>
-                            <input type="email" defaultValue="amik@example.com" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                            <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Email Address <span className="text-[var(--color-primary)]">*</span></label>
+                            <input type="email" defaultValue="amik@example.com" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                         </div>
                         
                         <div className="md:col-span-2 pt-6">
-                            <h4 className="text-[12px] font-black text-[#111] uppercase mb-6 border-l-4 border-[#FF4D6D] pl-3">Password Change</h4>
+                            <h4 className="text-[12px] font-black text-[#111] uppercase mb-6 border-l-4 border-[var(--color-primary)] pl-3">Password Change</h4>
                             <div className="space-y-6">
                                 <div>
                                     <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Current password (leave blank to leave unchanged)</label>
-                                    <input type="password" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                                    <input type="password" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                                 </div>
                                 <div>
                                     <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">New password (leave blank to leave unchanged)</label>
-                                    <input type="password" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                                    <input type="password" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                                 </div>
                                 <div>
                                     <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Confirm new password</label>
-                                    <input type="password" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                                    <input type="password" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                                 </div>
                             </div>
                         </div>
 
                         <div className="md:col-span-2 pt-4">
-                             <button type="submit" className="h-[60px] px-12 bg-[#FF4D6D] text-white font-black uppercase rounded-xl text-sm shadow-xl shadow-[#FF4D6D]/20 hover:bg-[#e64462] transition-all active:scale-[0.98] cursor-pointer">Save Changes</button>
+                             <button type="submit" className="h-[60px] px-12 bg-[var(--color-primary)] text-white font-black uppercase rounded-xl text-sm shadow-xl shadow-[var(--color-primary)]/20 hover:bg-[#e64462] transition-all active:scale-[0.98] cursor-pointer">Save Changes</button>
                         </div>
                     </form>
                 </div>
             )}
           </main>
         </div>
+
+        {/* Logout Confirmation Modal */}
+        {showLogoutModal && (
+            <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+                <div className="bg-white rounded-[32px] p-10 max-w-sm w-full shadow-2xl border border-white/20 animate-scaleUp">
+                    <div className="text-center">
+                        <div className="w-16 h-16 bg-primary-light text-[var(--color-primary)] rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        </div>
+                        <h3 className="text-2xl font-black text-[#111] uppercase italic tracking-tighter">Logging Out?</h3>
+                        <p className="mt-2 text-sm font-medium text-gray-400">See you again soon for more beauty finds!</p>
+                    </div>
+                    <div className="mt-10 flex flex-col gap-3">
+                        <button 
+                            onClick={() => signOut({ callbackUrl: '/auth/login' })}
+                            className="w-full h-14 bg-[var(--color-primary)] text-white font-black uppercase text-xs tracking-widest rounded-2xl hover:bg-[#e64462] transition-all shadow-lg shadow-[var(--color-primary)]/20 active:scale-95"
+                        >
+                            Yes, Logout
+                        </button>
+                        <button 
+                            onClick={() => setShowLogoutModal(false)}
+                            className="w-full h-14 bg-gray-50 text-gray-400 font-black uppercase text-xs tracking-widest rounded-2xl hover:bg-gray-100 hover:text-[#111] transition-all active:scale-95"
+                        >
+                            Stay Here
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )}
       </div>
     </div>
   );

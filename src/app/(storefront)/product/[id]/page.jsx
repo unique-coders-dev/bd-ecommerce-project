@@ -14,6 +14,13 @@ const ProductDetails = () => {
   const [thumbStartIdx, setThumbStartIdx] = useState(0);
   const [isZooming, setIsZooming] = useState(false);
   const [zoomStyle, setZoomStyle] = useState({});
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/admin/settings')
+      .then(res => res.json())
+      .then(data => setSettings(data));
+  }, []);
 
   const product = {
     id: id || 21656,
@@ -118,11 +125,11 @@ const ProductDetails = () => {
       {/* Breadcrumb Section */}
       <div className="w-full bg-white border-b border-[#e1e1e1] flex-shrink-0 relative z-[40]">
         <div className="max-w-[1320px] mx-auto px-4 py-3 flex items-center text-[13px] text-[#777] w-full">
-          <Link href="/" className="hover:text-[#FF4D6D] transition-colors">Home</Link>
+          <Link href="/" className="hover:text-[var(--color-primary)] transition-colors">Home</Link>
           <span className="mx-2.5 text-gray-300">/</span>
-          <Link href="/shop" className="hover:text-[#FF4D6D] transition-colors">Shop</Link>
+          <Link href="/shop" className="hover:text-[var(--color-primary)] transition-colors">Shop</Link>
           <span className="mx-2.5 text-gray-300">/</span>
-          <span className="text-[#FF4D6D] font-bold">{product.name}</span>
+          <span className="text-[var(--color-primary)] font-bold">{product.name}</span>
         </div>
       </div>
 
@@ -141,7 +148,7 @@ const ProductDetails = () => {
                 <button 
                   onClick={handleThumbPrev}
                   disabled={thumbStartIdx === 0}
-                  className="absolute -top-3 md:-top-4 left-0 md:left-1/2 md:-translate-x-1/2 z-10 w-7 h-7 md:w-8 md:h-8 bg-white border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-[#FF4D6D] hover:shadow-md transition-all disabled:opacity-0 cursor-pointer shadow-sm"
+                  className="absolute -top-3 md:-top-4 left-0 md:left-1/2 md:-translate-x-1/2 z-10 w-7 h-7 md:w-8 md:h-8 bg-white border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-[var(--color-primary)] hover:shadow-md transition-all disabled:opacity-0 cursor-pointer shadow-sm"
                 >
                   <svg className="w-3.5 h-3.5 md:w-4 md:h-4 rotate-[-90deg] md:rotate-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M5 15l7-7 7 7"/></svg>
                 </button>
@@ -152,7 +159,7 @@ const ProductDetails = () => {
                      return (
                       <button
                         key={actualIdx}
-                        className={`min-w-[70px] md:min-w-0 w-full aspect-square border-2 p-1 transition-all rounded-lg flex-shrink-0 bg-white cursor-pointer ${activeImage === actualIdx ? 'border-[#FF4D6D] ring-2 ring-[#FF4D6D]/10' : 'border-gray-100'}`}
+                        className={`min-w-[70px] md:min-w-0 w-full aspect-square border-2 p-1 transition-all rounded-lg flex-shrink-0 bg-white cursor-pointer ${activeImage === actualIdx ? 'border-[var(--color-primary)] ring-2 ring-[var(--color-primary)]/10' : 'border-gray-100'}`}
                         onClick={() => setActiveImage(actualIdx)}
                       >
                         <img src={img} alt={`thumb-${actualIdx}`} className="w-full h-full object-contain" />
@@ -165,7 +172,7 @@ const ProductDetails = () => {
                 <button 
                   onClick={handleThumbNext}
                   disabled={thumbStartIdx + 4 >= product.images.length}
-                  className="absolute -bottom-3 md:-bottom-4 right-0 md:left-1/2 md:-translate-x-1/2 z-10 w-7 h-7 md:w-8 md:h-8 bg-white border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-[#FF4D6D] hover:shadow-md transition-all disabled:opacity-0 cursor-pointer shadow-sm"
+                  className="absolute -bottom-3 md:-bottom-4 right-0 md:left-1/2 md:-translate-x-1/2 z-10 w-7 h-7 md:w-8 md:h-8 bg-white border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-[var(--color-primary)] hover:shadow-md transition-all disabled:opacity-0 cursor-pointer shadow-sm"
                 >
                   <svg className="w-3.5 h-3.5 md:w-4 md:h-4 rotate-[-90deg] md:rotate-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M19 9l-7 7-7-7"/></svg>
                 </button>
@@ -190,7 +197,7 @@ const ProductDetails = () => {
                   className={`max-w-full max-h-full object-contain transition-all duration-300 p-8 ${isZooming ? 'opacity-0 scale-110' : 'opacity-100 scale-100'}`}
                   loading="eager"
                 />
-                <div className="absolute top-4 left-4 bg-[#FF4D6D] text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase z-10 shadow-lg shadow-[#FF4D6D]/20 animate-bounce">Sale!</div>
+                <div className="absolute top-4 left-4 bg-[var(--color-primary)] text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase z-10 shadow-lg shadow-[var(--color-primary)]/20 animate-bounce">Sale!</div>
               </div>
             </div>
 
@@ -198,7 +205,7 @@ const ProductDetails = () => {
             <div className="flex flex-col">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex flex-col gap-2">
-                  <Link href="/brand/dabo" className="text-[11px] font-black uppercase text-[#FF4D6D] tracking-[2px] hover:underline underline-offset-4">{product.brand}</Link>
+                  <Link href="/brand/dabo" className="text-[11px] font-black uppercase text-[var(--color-primary)] tracking-[2px] hover:underline underline-offset-4">{product.brand}</Link>
                   <h1 className="text-2xl lg:text-4xl font-black text-[#111] leading-tight tracking-tight">{product.name}</h1>
                 </div>
                 {product.brandLogo && (
@@ -209,15 +216,15 @@ const ProductDetails = () => {
               </div>
 
               <div className="flex items-center gap-4 mb-6">
-                <span className="text-xl lg:text-2xl text-gray-400 line-through decoration-[#FF4D6D]/30 underline-offset-4 font-medium">৳ {product.regularPrice}</span>
-                <span className="text-3xl lg:text-5xl font-black text-[#FF4D6D] drop-shadow-sm">৳ {product.salePrice}</span>
-                <span className="bg-[#fff0f3] text-[#FF4D6D] text-[12px] font-black px-2.5 py-1 rounded-md border border-[#FF4D6D]/10">-{product.discount} OFF</span>
+                <span className="text-xl lg:text-2xl text-gray-400 line-through decoration-[var(--color-primary)]/30 underline-offset-4 font-medium">৳ {product.regularPrice}</span>
+                <span className="text-3xl lg:text-5xl font-black text-[var(--color-primary)] drop-shadow-sm">৳ {product.salePrice}</span>
+                <span className="bg-[var(--color-primary-light)] text-[var(--color-primary)] text-[12px] font-black px-2.5 py-1 rounded-md border border-[var(--color-primary)]/10">-{product.discount} OFF</span>
               </div>
 
               <div className="text-sm lg:text-base text-gray-600 leading-relaxed mb-8 font-medium border-l-4 border-gray-100 pl-4 py-1 italic">{product.shortDescription}</div>
 
               <div className="flex flex-wrap items-center gap-4 mb-10">
-                <div className="flex items-center border-2 border-gray-100 rounded-xl h-[56px] bg-white overflow-hidden focus-within:border-[#FF4D6D]/30 transition-colors">
+                <div className="flex items-center border-2 border-gray-100 rounded-xl h-[56px] bg-white overflow-hidden focus-within:border-[var(--color-primary)]/30 transition-colors">
                   <button className="w-12 h-full flex items-center justify-center text-xl text-gray-400 hover:bg-gray-50 transition-colors cursor-pointer group" onClick={() => handleQuantityChange('decrease')}>
                     <span className="group-active:scale-90 transition-transform">-</span>
                   </button>
@@ -226,7 +233,7 @@ const ProductDetails = () => {
                     <span className="group-active:scale-95 transition-transform">+</span>
                   </button>
                 </div>
-                <button className="h-[56px] px-8 bg-[#FF4D6D] text-white font-black rounded-xl hover:bg-[#e64462] transition-all uppercase text-sm tracking-widest active:scale-95 shadow-xl shadow-[#FF4D6D]/20 cursor-pointer whitespace-nowrap flex-1 lg:flex-none">Add to cart</button>
+                <button className="h-[56px] px-8 bg-[var(--color-primary)] text-white font-black rounded-xl hover:bg-[#e64462] transition-all uppercase text-sm tracking-widest active:scale-95 shadow-xl shadow-[var(--color-primary)]/20 cursor-pointer whitespace-nowrap flex-1 lg:flex-none">Add to cart</button>
                 <button className="h-[56px] px-8 bg-[#111] text-white font-black rounded-xl hover:bg-black transition-all uppercase text-sm tracking-widest active:scale-95 shadow-xl shadow-black/10 cursor-pointer whitespace-nowrap flex-1 lg:flex-none">Buy Now</button>
               </div>
 
@@ -246,12 +253,12 @@ const ProductDetails = () => {
 
               <div className="pt-6 border-t border-gray-100 space-y-3.5 text-[13px]">
                 <div className="flex gap-2"><span className="font-black text-[#111] uppercase w-[90px] shrink-0 text-[11px] tracking-widest">SKU:</span><span className="text-gray-500 font-bold">{product.sku}</span></div>
-                <div className="flex gap-2"><span className="font-black text-[#111] uppercase w-[90px] shrink-0 text-[11px] tracking-widest">Category:</span><Link href="/shop" className="text-[#FF4D6D] hover:underline underline-offset-4 transition-all font-black">{product.category}</Link></div>
+                <div className="flex gap-2"><span className="font-black text-[#111] uppercase w-[90px] shrink-0 text-[11px] tracking-widest">Category:</span><Link href="/shop" className="text-[var(--color-primary)] hover:underline underline-offset-4 transition-all font-black">{product.category}</Link></div>
                 <div className="flex gap-2 pt-2 items-center">
                   <div className="flex gap-4">
-                    <button className="text-gray-400 hover:text-[#FF4D6D] text-lg transition-all hover:scale-125 cursor-pointer active:scale-90"><i className="fab fa-facebook"></i></button>
-                    <button className="text-gray-400 hover:text-[#FF4D6D] text-lg transition-all hover:scale-125 cursor-pointer active:scale-90"><i className="fab fa-instagram"></i></button>
-                    <button className="text-gray-400 hover:text-[#FF4D6D] text-lg transition-all hover:scale-125 cursor-pointer active:scale-90"><i className="fab fa-whatsapp"></i></button>
+                    <button className="text-gray-400 hover:text-[var(--color-primary)] text-lg transition-all hover:scale-125 cursor-pointer active:scale-90"><i className="fab fa-facebook"></i></button>
+                    <button className="text-gray-400 hover:text-[var(--color-primary)] text-lg transition-all hover:scale-125 cursor-pointer active:scale-90"><i className="fab fa-instagram"></i></button>
+                    <button className="text-gray-400 hover:text-[var(--color-primary)] text-lg transition-all hover:scale-125 cursor-pointer active:scale-90"><i className="fab fa-whatsapp"></i></button>
                   </div>
                 </div>
               </div>
@@ -266,12 +273,12 @@ const ProductDetails = () => {
             {tabs.map(tab => (
               <button
                 key={tab.id}
-                className={`py-5 px-6 text-[11px] font-black uppercase tracking-[2px] transition-all whitespace-nowrap relative cursor-pointer active:translate-y-0.5 ${activeTab === tab.id ? 'text-[#FF4D6D]' : 'text-gray-400 hover:text-gray-600'}`}
+                className={`py-5 px-6 text-[11px] font-black uppercase tracking-[2px] transition-all whitespace-nowrap relative cursor-pointer active:translate-y-0.5 ${activeTab === tab.id ? 'text-[var(--color-primary)]' : 'text-gray-400 hover:text-gray-600'}`}
                 onClick={() => setActiveTab(tab.id)}
               >
                 {tab.label}
                 {activeTab === tab.id && (
-                  <div className="absolute bottom-0 left-0 w-full h-[3px] bg-[#FF4D6D] shadow-[0_-4px_10px_rgba(255,77,109,0.3)]"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-[3px] bg-[var(--color-primary)] shadow-[0_-4px_10px_rgba(255,77,109,0.3)]"></div>
                 )}
               </button>
             ))}
@@ -293,7 +300,7 @@ const ProductDetails = () => {
               <div className="grid grid-cols-1 divide-y divide-gray-100 animate-fadeIn border border-gray-100 rounded-xl overflow-hidden shadow-inner">
                 {Object.entries(product.additionalInfo).map(([label, value], i) => (
                   <div key={i} className="flex flex-col sm:flex-row py-4 px-6 items-start sm:items-center hover:bg-gray-50/50 transition-colors group">
-                    <span className="w-full sm:w-[200px] font-black text-[#111] uppercase text-[10px] shrink-0 tracking-[2px] mb-2 sm:mb-0 group-hover:text-[#FF4D6D] transition-colors">{label}</span>
+                    <span className="w-full sm:w-[200px] font-black text-[#111] uppercase text-[10px] shrink-0 tracking-[2px] mb-2 sm:mb-0 group-hover:text-[var(--color-primary)] transition-colors">{label}</span>
                     <span className="font-bold text-gray-600">{value}</span>
                   </div>
                 ))}
@@ -305,7 +312,7 @@ const ProductDetails = () => {
                 <div className="w-20 h-20 bg-gray-50 rounded-3xl flex items-center justify-center mb-6 shadow-inner text-gray-200 rotate-12 transition-transform hover:rotate-0"><i className="far fa-comments text-3xl"></i></div>
                 <p className="text-lg font-black text-[#111] mb-2 tracking-tight">QUIET BEFORE THE STORM</p>
                 <p className="text-gray-400 font-medium mb-6">No reviews yet. Be the first to break the silence!</p>
-                <button className="text-[#FF4D6D] font-black uppercase text-[11px] tracking-[2px] py-3 px-8 rounded-full border-2 border-[#FF4D6D] hover:bg-[#FF4D6D] hover:text-white transition-all cursor-pointer shadow-lg shadow-[#FF4D6D]/10">Write a Review</button>
+                <button className="text-[var(--color-primary)] font-black uppercase text-[11px] tracking-[2px] py-3 px-8 rounded-full border-2 border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-all cursor-pointer shadow-lg shadow-[var(--color-primary)]/10">Write a Review</button>
               </div>
             )}
 
@@ -315,15 +322,15 @@ const ProductDetails = () => {
                   { title: "SteadFast Courier", desc: "Reliable nationwide delivery to your doorstep", time: "2-3 Days", logo: "https://kcbazar.com/wp-content/uploads/2025/02/steadfast-logo.svg" },
                   { title: "Pathao Personal", desc: "On-demand hyper-fast metropolitan delivery", time: "1-2 Days", logo: "https://kcbazar.com/wp-content/uploads/2022/12/pathao-courier-48x24.jpg" },
                   { title: "Sundarban Express", desc: "Classic logistics for remote township delivery", time: "3-5 Days", logo: "https://kcbazar.com/wp-content/uploads/2022/12/scsLogo20-48x48.jpg" },
-                  { title: "KC Home Delivery", desc: "Our premium white-glove delivery service", time: "Select Areas", logo: "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png" }
+                  { title: "KC Home Delivery", desc: "Our premium white-glove delivery service", time: "Select Areas", logo: settings?.logoUrl || "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png" }
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-5 p-6 border border-gray-100 rounded-2xl items-center hover:shadow-xl hover:border-[#FF4D6D]/10 transition-all bg-white group cursor-pointer relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#FF4D6D]/5 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-150"></div>
+                  <div key={i} className="flex gap-5 p-6 border border-gray-100 rounded-2xl items-center hover:shadow-xl hover:border-[var(--color-primary)]/10 transition-all bg-white group cursor-pointer relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-primary)]/5 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-150"></div>
                     <div className="w-16 h-16 shrink-0 border border-gray-50 rounded-2xl p-2 flex items-center justify-center bg-gray-50 shadow-inner overflow-hidden relative"><img src={item.logo} alt="logo" className="max-w-full max-h-full object-contain transition-transform group-hover:scale-110" /></div>
                     <div className="flex-1 relative">
-                      <h4 className="font-black text-[#111] text-[15px] mb-0.5 group-hover:text-[#FF4D6D] transition-colors">{item.title}</h4>
+                      <h4 className="font-black text-[#111] text-[15px] mb-0.5 group-hover:text-[var(--color-primary)] transition-colors">{item.title}</h4>
                       <p className="text-[12px] text-gray-400 mb-3 font-medium line-clamp-1">{item.desc}</p>
-                      <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest"><span className="text-[#FF4D6D] border-b-2 border-transparent hover:border-[#FF4D6D] transition-all">Pricing</span><span className="text-gray-500 bg-gray-100 px-3 py-1 rounded-md">{item.time}</span></div>
+                      <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest"><span className="text-[var(--color-primary)] border-b-2 border-transparent hover:border-[var(--color-primary)] transition-all">Pricing</span><span className="text-gray-500 bg-gray-100 px-3 py-1 rounded-md">{item.time}</span></div>
                     </div>
                   </div>
                 ))}
@@ -334,12 +341,12 @@ const ProductDetails = () => {
               <div className="animate-fadeIn">
                 <div className="text-center mb-12">
                   <h3 className="text-2xl lg:text-4xl font-black text-[#111] mb-2 tracking-tighter uppercase">Authenticity First</h3>
-                  <div className="w-20 h-1.5 bg-[#FF4D6D] mx-auto rounded-full"></div>
+                  <div className="w-20 h-1.5 bg-[var(--color-primary)] mx-auto rounded-full"></div>
                 </div>
                 <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {["Direct Korea Import", "No Local Sourcing", "No Middlemen Agents", "Showroom Experience", "Official Distribution Rights", "Rewards Program"].map((text, i) => (
-                    <li key={i} className="flex flex-col gap-4 items-center text-center p-8 bg-gray-50/50 border border-gray-100 rounded-3xl hover:bg-white hover:shadow-2xl hover:border-[#FF4D6D]/10 transition-all group scale-100 hover:scale-[1.02]">
-                      <div className="w-12 h-12 rounded-2xl bg-white shadow-lg flex items-center justify-center group-hover:bg-[#FF4D6D] transition-all">
+                    <li key={i} className="flex flex-col gap-4 items-center text-center p-8 bg-gray-50/50 border border-gray-100 rounded-3xl hover:bg-white hover:shadow-2xl hover:border-[var(--color-primary)]/10 transition-all group scale-100 hover:scale-[1.02]">
+                      <div className="w-12 h-12 rounded-2xl bg-white shadow-lg flex items-center justify-center group-hover:bg-[var(--color-primary)] transition-all">
                         <img src="https://kcbazar.com/wp-content/uploads/2025/04/icons8-checkmark.svg" className="w-6 h-6 object-contain transition-transform group-hover:scale-110" alt="check" />
                       </div>
                       <span className="text-xs font-black text-[#111] uppercase tracking-[2px] leading-tight">{text}</span>
@@ -350,10 +357,10 @@ const ProductDetails = () => {
             )}
 
             {activeTab === 'ingredients' && (
-              <div className="bg-[#111] p-8 lg:p-12 rounded-3xl border-l-[12px] border-[#FF4D6D] animate-fadeIn shadow-2xl relative overflow-hidden">
+              <div className="bg-[#111] p-8 lg:p-12 rounded-3xl border-l-[12px] border-[var(--color-primary)] animate-fadeIn shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-                <h4 className="text-[#FF4D6D] font-black text-[12px] tracking-[4px] uppercase mb-6 flex items-center gap-3">
-                  <span className="w-8 h-[2px] bg-[#FF4D6D]"></span> Chemical Composition
+                <h4 className="text-[var(--color-primary)] font-black text-[12px] tracking-[4px] uppercase mb-6 flex items-center gap-3">
+                  <span className="w-8 h-[2px] bg-[var(--color-primary)]"></span> Chemical Composition
                 </h4>
                 <div className="text-sm lg:text-base text-gray-300 font-bold leading-loose tracking-wide">
                   {product.ingredients}
@@ -368,9 +375,9 @@ const ProductDetails = () => {
           <div className="flex items-center justify-between mb-8 group">
             <div className="flex flex-col">
               <h4 className="text-2xl lg:text-3xl font-black text-[#111] uppercase tracking-tighter leading-none mb-2">You Might Also Love</h4>
-              <div className="h-1.5 w-12 bg-[#FF4D6D] rounded-full transition-all group-hover:w-24"></div>
+              <div className="h-1.5 w-12 bg-[var(--color-primary)] rounded-full transition-all group-hover:w-24"></div>
             </div>
-            <Link href="/shop" className="text-[11px] font-black uppercase text-[#FF4D6D] tracking-widest hover:translate-x-2 transition-transform flex items-center gap-2">Explore Shop <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg></Link>
+            <Link href="/shop" className="text-[11px] font-black uppercase text-[var(--color-primary)] tracking-widest hover:translate-x-2 transition-transform flex items-center gap-2">Explore Shop <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg></Link>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
             {relatedProducts.map(p => (<ProductCard key={p.id} product={p} />))}

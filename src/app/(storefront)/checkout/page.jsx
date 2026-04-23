@@ -25,7 +25,7 @@ const Checkout = () => {
       <div className="max-w-[1320px] mx-auto px-4">
         
         {/* Step Banner */}
-        <div className="bg-[#FF4D6D] text-white py-8 lg:py-12 rounded-xl mb-10 shadow-lg shadow-[#FF4D6D]/10">
+        <div className="bg-[var(--color-primary)] text-white py-8 lg:py-12 rounded-xl mb-10 shadow-lg shadow-[var(--color-primary)]/10">
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 lg:gap-10 text-sm md:text-xl font-black uppercase tracking-[2px] lg:tracking-[4px]">
              <Link href="/cart" className="opacity-40 hover:opacity-100 transition-opacity">Shopping Cart</Link>
              <span className="hidden md:inline opacity-40">→</span>
@@ -44,20 +44,20 @@ const Checkout = () => {
                
                <div className="grid grid-cols-1 gap-6">
                  <div>
-                   <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Name (নাম) <span className="text-red-500">*</span></label>
-                   <input type="text" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                   <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Name (নাম) <span className="text-primary-light0">*</span></label>
+                   <input type="text" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                  </div>
 
                  <div>
-                    <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Country (দেশ) <span className="text-red-500">*</span></label>
-                    <select className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm appearance-none cursor-pointer">
+                    <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Country (দেশ) <span className="text-primary-light0">*</span></label>
+                    <select className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm appearance-none cursor-pointer">
                         <option>Bangladesh</option>
                     </select>
                  </div>
 
                  <div>
-                    <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">District (জেলা) <span className="text-red-500">*</span></label>
-                    <select className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm cursor-pointer">
+                    <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">District (জেলা) <span className="text-primary-light0">*</span></label>
+                    <select className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm cursor-pointer">
                         <option>Banderban</option>
                         <option>Dhaka</option>
                         <option>Chittagong</option>
@@ -65,28 +65,28 @@ const Checkout = () => {
                  </div>
 
                  <div>
-                   <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Thana (উপজেলা বা থানা) <span className="text-red-500">*</span></label>
-                   <input type="text" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                   <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Thana (উপজেলা বা থানা) <span className="text-primary-light0">*</span></label>
+                   <input type="text" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                  </div>
 
                  <div>
-                   <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Address (ঠিকানা) <span className="text-red-500">*</span></label>
-                   <input type="text" placeholder="House number and street name" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                   <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Address (ঠিকানা) <span className="text-primary-light0">*</span></label>
+                   <input type="text" placeholder="House number and street name" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                  </div>
 
                  <div>
-                   <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Mobile Number (মোবাইল নাম্বার) <span className="text-red-500">*</span></label>
-                   <input type="text" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                   <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Mobile Number (মোবাইল নাম্বার) <span className="text-primary-light0">*</span></label>
+                   <input type="text" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                  </div>
 
                  <div>
                    <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Email Address (ইমেইল এড্রেস)</label>
-                   <input type="email" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm" />
+                   <input type="email" className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm" />
                  </div>
 
                  <div>
                     <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Courier (কুরিয়ার) (optional)</label>
-                    <select className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm cursor-pointer">
+                    <select className="w-full h-[54px] px-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm cursor-pointer">
                         <option>Steadfast</option>
                         <option>Pathao</option>
                         <option>Sundarban</option>
@@ -96,14 +96,14 @@ const Checkout = () => {
 
                  <div className="pt-4 border-t border-gray-50">
                     <label className="flex items-center gap-3 cursor-pointer group">
-                        <input type="checkbox" className="w-5 h-5 accent-[#FF4D6D]" />
-                        <span className="text-sm font-black text-[#111] group-hover:text-[#FF4D6D] transition-colors uppercase tracking-widest">Ship to a different address?</span>
+                        <input type="checkbox" className="w-5 h-5 accent-[var(--color-primary)]" />
+                        <span className="text-sm font-black text-[#111] group-hover:text-[var(--color-primary)] transition-colors uppercase tracking-widest">Ship to a different address?</span>
                     </label>
                  </div>
 
                  <div className="mt-4">
                     <label className="block text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2">Order notes (optional)</label>
-                    <textarea placeholder="Notes about your order, e.g. special notes for delivery." className="w-full h-[120px] p-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[#FF4D6D]/30 focus:bg-white transition-all font-medium text-sm resize-none"></textarea>
+                    <textarea placeholder="Notes about your order, e.g. special notes for delivery." className="w-full h-[120px] p-6 border border-gray-100 rounded-lg bg-gray-50/30 outline-none focus:border-[var(--color-primary)]/30 focus:bg-white transition-all font-medium text-sm resize-none"></textarea>
                  </div>
                </div>
             </div>
@@ -142,17 +142,17 @@ const Checkout = () => {
                     </div>
                     <div className="flex justify-between items-center pt-6 border-t border-gray-100">
                        <span className="font-black text-[#111] uppercase tracking-widest text-sm">Total</span>
-                       <span className="text-2xl font-black text-[#FF4D6D]">৳ 800</span>
+                       <span className="text-2xl font-black text-[var(--color-primary)]">৳ 800</span>
                     </div>
                  </div>
 
                  {/* Payment Information */}
                  <div className="pt-10 space-y-6">
-                    <h4 className="text-[12px] font-black text-[#111] uppercase tracking-[2px] border-l-4 border-[#FF4D6D] pl-3">Payment Information</h4>
+                    <h4 className="text-[12px] font-black text-[#111] uppercase tracking-[2px] border-l-4 border-[var(--color-primary)] pl-3">Payment Information</h4>
                     
                     <div className="space-y-4">
-                        <label className="flex items-center gap-4 p-4 border border-gray-50 rounded-xl bg-gray-50/30 cursor-pointer hover:border-[#FF4D6D]/30 transition-all">
-                            <input type="radio" name="payment" defaultChecked className="w-5 h-5 accent-[#FF4D6D]" />
+                        <label className="flex items-center gap-4 p-4 border border-gray-50 rounded-xl bg-gray-50/30 cursor-pointer hover:border-[var(--color-primary)]/30 transition-all">
+                            <input type="radio" name="payment" defaultChecked className="w-5 h-5 accent-[var(--color-primary)]" />
                             <div className="flex flex-col">
                                 <span className="text-sm font-black text-[#111] uppercase tracking-widest">Cash on delivery</span>
                                 <span className="text-[11px] text-gray-400 font-medium">Pay with cash upon delivery.</span>
@@ -161,11 +161,11 @@ const Checkout = () => {
                     </div>
 
                     <p className="text-[11px] text-gray-400 leading-loose font-medium px-2">
-                        Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <Link href="/privacy" className="text-[#FF4D6D] hover:underline">privacy policy</Link>. 
-                        <br /> I have read and agree to the website <Link href="/terms" className="text-[#FF4D6D] hover:underline">Terms & Conditions</Link>, <Link href="/refund" className="text-[#FF4D6D] hover:underline">Return & Refund policy</Link>.
+                        Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <Link href="/privacy" className="text-[var(--color-primary)] hover:underline">privacy policy</Link>. 
+                        <br /> I have read and agree to the website <Link href="/terms" className="text-[var(--color-primary)] hover:underline">Terms & Conditions</Link>, <Link href="/refund" className="text-[var(--color-primary)] hover:underline">Return & Refund policy</Link>.
                     </p>
 
-                    <Link href="/order-complete" className="w-full h-[64px] bg-[#FF4D6D] text-white flex items-center justify-center font-black uppercase tracking-[3px] rounded-xl text-[15px] shadow-2xl shadow-[#FF4D6D]/30 hover:bg-[#e64462] transition-all active:scale-[0.98] cursor-pointer">Place Order</Link>
+                    <Link href="/order-complete" className="w-full h-[64px] bg-primary text-white flex items-center justify-center font-black uppercase tracking-[3px] rounded-xl text-[15px] shadow-2xl shadow-primary/30 hover:bg-primary-soft hover:text-primary transition-all active:scale-[0.98] cursor-pointer">Place Order</Link>
                  </div>
                </div>
             </div>

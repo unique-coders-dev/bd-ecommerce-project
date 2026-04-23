@@ -148,7 +148,7 @@ const Shop = () => {
         {/* ── Breadcrumbs & Result Count ── */}
         <div className="flex flex-col md:flex-row justify-between items-center py-2.5 mb-4 border-b border-gray-100">
           <div className="text-[13px] text-gray-500 font-medium">
-            <span><Link href="/" className="hover:text-[#FF4D6D] transition-colors">Home</Link> » <span className="text-gray-800" aria-current="page">Anua</span></span>
+            <span><Link href="/" className="hover:text-[var(--color-primary)] transition-colors">Home</Link> » <span className="text-gray-800" aria-current="page">Anua</span></span>
           </div>
           <div className="text-[13px] text-gray-500 mt-3 md:mt-0 font-medium">
             Showing all 23 results
@@ -169,10 +169,10 @@ const Shop = () => {
 
             {/* Price Filter Widget */}
             <div className="bg-white shadow-sm rounded-xl p-5 border border-gray-50">
-              <h5 className="text-[15px] font-bold text-gray-900 uppercase tracking-wide relative pb-3 border-b border-gray-200 mb-[15px] after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-12 after:h-[2px] after:bg-[#FF4D6D]">Filter By Price</h5>
+              <h5 className="text-[15px] font-bold text-gray-900 uppercase tracking-wide relative pb-3 border-b border-gray-200 mb-[15px] after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-12 after:h-[2px] after:bg-[var(--color-primary)]">Filter By Price</h5>
               <div className="relative h-1 mt-6 mb-6 group">
                 <div className="absolute w-full h-[4px] bg-gray-100 rounded-full"></div>
-                <div className="absolute h-[4px] bg-[#FF4D6D] rounded-full" style={{ left: `${((priceRange[0] - 40) / (5500 - 40)) * 100}%`, right: `${100 - ((priceRange[1] - 40) / (5500 - 40)) * 100}%` }}></div>
+                <div className="absolute h-[4px] bg-[var(--color-primary)] rounded-full" style={{ left: `${((priceRange[0] - 40) / (5500 - 40)) * 100}%`, right: `${100 - ((priceRange[1] - 40) / (5500 - 40)) * 100}%` }}></div>
                 <input
                   type="range"
                   min="40"
@@ -182,7 +182,7 @@ const Shop = () => {
                     const val = Math.min(Number(e.target.value), priceRange[1] - 1);
                     setPriceRange([val, priceRange[1]]);
                   }}
-                  className="absolute top-[-5px] w-full pointer-events-none appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[#FF4D6D] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md cursor-pointer"
+                  className="absolute top-[-5px] w-full pointer-events-none appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[var(--color-primary)] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md cursor-pointer"
                 />
                 <input
                   type="range"
@@ -193,28 +193,28 @@ const Shop = () => {
                     const val = Math.max(Number(e.target.value), priceRange[0] + 1);
                     setPriceRange([priceRange[0], val]);
                   }}
-                  className="absolute top-[-5px] w-full pointer-events-none appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[#FF4D6D] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md cursor-pointer"
+                  className="absolute top-[-5px] w-full pointer-events-none appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[var(--color-primary)] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md cursor-pointer"
                 />
               </div>
               <div className="flex items-center justify-between mt-2 gap-4">
                 <div className="text-[13px] text-gray-600 font-medium">
                   ৳{priceRange[0]} - ৳{priceRange[1]}
                 </div>
-                <button className="text-[11px] px-4 py-1.5 bg-[#FF4D6D] hover:bg-[#e64462] text-white font-bold rounded shadow-sm transition-all uppercase tracking-wider active:scale-95 cursor-pointer">Filter</button>
+                <button className="text-[11px] px-4 py-1.5 bg-[var(--color-primary)] hover:bg-[#e64462] text-white font-bold rounded shadow-sm transition-all uppercase tracking-wider active:scale-95 cursor-pointer">Filter</button>
               </div>
             </div>
 
             {/* Categories Widget */}
             <div className="bg-white shadow-sm rounded-xl p-5 border border-gray-50">
-              <h5 className="text-[15px] font-bold text-gray-900 uppercase tracking-wide relative pb-3 border-b border-gray-200 mb-[15px] after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-12 after:h-[2px] after:bg-[#FF4D6D]">All Categories</h5>
+              <h5 className="text-[15px] font-bold text-gray-900 uppercase tracking-wide relative pb-3 border-b border-gray-200 mb-[15px] after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-12 after:h-[2px] after:bg-[var(--color-primary)]">All Categories</h5>
               <ul className="text-[14px] text-gray-600 space-y-2.5">
                 {categories.map((cat, idx) => (
                   <li key={idx} className="group">
                     <div
-                      className="flex justify-between items-center cursor-pointer hover:text-[#FF4D6D] transition-colors"
+                      className="flex justify-between items-center cursor-pointer hover:text-[var(--color-primary)] transition-colors"
                       onClick={() => cat.sub ? toggleCategory(idx) : null}
                     >
-                      <span className="font-semibold text-gray-700 group-hover:text-[#FF4D6D] transition-colors">{cat.name}</span>
+                      <span className="font-semibold text-gray-700 group-hover:text-[var(--color-primary)] transition-colors">{cat.name}</span>
                       <div className="flex items-center gap-2">
                         <span className="bg-gray-50 text-gray-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-gray-100">{cat.count}</span>
                         {cat.sub && (
@@ -224,9 +224,9 @@ const Shop = () => {
                     </div>
                     {cat.sub && (
                       <div className={`overflow-hidden transition-all duration-300 ${expandedCategories[idx] ? 'max-h-96 opacity-100 mt-2' : 'max-h-0 opacity-0'}`}>
-                        <ul className="pl-4 space-y-2 border-l-2 border-pink-50 pb-1 ml-1">
+                        <ul className="pl-4 space-y-2 border-l-2 border-primary-light pb-1 ml-1">
                           {cat.sub.map((sub, sIdx) => (
-                            <li key={sIdx} className="hover:text-[#FF4D6D] cursor-pointer transition-colors text-[13px] text-gray-500 py-0.5 flex items-center before:content-[''] before:w-1.5 before:h-[1px] before:bg-gray-200 before:mr-2">
+                            <li key={sIdx} className="hover:text-[var(--color-primary)] cursor-pointer transition-colors text-[13px] text-gray-500 py-0.5 flex items-center before:content-[''] before:w-1.5 before:h-[1px] before:bg-gray-200 before:mr-2">
                               {sub}
                             </li>
                           ))}
@@ -240,9 +240,9 @@ const Shop = () => {
 
             {/* Brands Widget */}
             <div className="bg-white shadow-sm rounded-xl p-5 border border-gray-50">
-              <h5 className="text-[15px] font-bold text-gray-900 uppercase tracking-wide relative pb-3 border-b border-gray-200 mb-[15px] after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-12 after:h-[2px] after:bg-[#FF4D6D]">Filter By Brand</h5>
+              <h5 className="text-[15px] font-bold text-gray-900 uppercase tracking-wide relative pb-3 border-b border-gray-200 mb-[15px] after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-12 after:h-[2px] after:bg-[var(--color-primary)]">Filter By Brand</h5>
               <div className="relative mb-4">
-                <input type="text" placeholder="Search brands..." className="w-full text-sm bg-gray-50 border border-gray-100 rounded-lg py-2 px-3 pl-9 outline-none focus:bg-white focus:border-[#FF4D6D]/30 transition-all" />
+                <input type="text" placeholder="Search brands..." className="w-full text-sm bg-gray-50 border border-gray-100 rounded-lg py-2 px-3 pl-9 outline-none focus:bg-white focus:border-[var(--color-primary)]/30 transition-all" />
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                   <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </span>
@@ -252,8 +252,8 @@ const Shop = () => {
                   <li key={idx}>
                     <label className="flex items-center justify-between cursor-pointer group">
                       <div className="flex items-center gap-3">
-                        <input type="checkbox" className="w-4 h-4 border-2 border-gray-200 rounded text-[#FF4D6D] focus:ring-[#FF4D6D] cursor-pointer" />
-                        <span className="text-sm font-medium text-gray-700 group-hover:text-[#FF4D6D] transition-colors">{brand.name}</span>
+                        <input type="checkbox" className="w-4 h-4 border-2 border-gray-200 rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] cursor-pointer" />
+                        <span className="text-sm font-medium text-gray-700 group-hover:text-[var(--color-primary)] transition-colors">{brand.name}</span>
                       </div>
                       <span className="text-[10px] font-bold text-gray-400">{brand.count}</span>
                     </label>
@@ -264,13 +264,13 @@ const Shop = () => {
 
             {/* Sort/Short Buy Sort Widget Implementation (Condensed for Next.js consistency) */}
             <div className="bg-white shadow-sm rounded-xl p-5 border border-gray-50">
-              <h5 className="text-[15px] font-bold text-gray-900 uppercase tracking-wide relative pb-3 border-b border-gray-200 mb-[15px] after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-12 after:h-[2px] after:bg-[#FF4D6D]">Sort By</h5>
+              <h5 className="text-[15px] font-bold text-gray-900 uppercase tracking-wide relative pb-3 border-b border-gray-200 mb-[15px] after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-12 after:h-[2px] after:bg-[var(--color-primary)]">Sort By</h5>
               <ul className="space-y-3">
-                <li><button className="text-sm font-black text-[#111] flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#FF4D6D] before:rounded-full before:mr-2 cursor-pointer">Popularity</button></li>
-                <li><button className="text-sm text-gray-400 font-bold hover:text-[#FF4D6D] transition-colors flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-transparent before:rounded-full before:mr-2 hover:before:bg-pink-300 cursor-pointer">Average rating</button></li>
-                <li><button className="text-sm text-gray-400 font-bold hover:text-[#FF4D6D] transition-colors flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-transparent before:rounded-full before:mr-2 hover:before:bg-pink-300 cursor-pointer">Newness</button></li>
-                <li><button className="text-sm text-gray-400 font-bold hover:text-[#FF4D6D] transition-colors flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-transparent before:rounded-full before:mr-2 hover:before:bg-pink-300 cursor-pointer">Price: low to high</button></li>
-                <li><button className="text-sm text-gray-400 font-bold hover:text-[#FF4D6D] transition-colors flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-transparent before:rounded-full before:mr-2 hover:before:bg-pink-300 cursor-pointer">Price: high to low</button></li>
+                <li><button className="text-sm font-black text-[#111] flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-[var(--color-primary)] before:rounded-full before:mr-2 cursor-pointer">Popularity</button></li>
+                <li><button className="text-sm text-gray-400 font-bold hover:text-[var(--color-primary)] transition-colors flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-transparent before:rounded-full before:mr-2 hover:before:bg-pink-300 cursor-pointer">Average rating</button></li>
+                <li><button className="text-sm text-gray-400 font-bold hover:text-[var(--color-primary)] transition-colors flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-transparent before:rounded-full before:mr-2 hover:before:bg-pink-300 cursor-pointer">Newness</button></li>
+                <li><button className="text-sm text-gray-400 font-bold hover:text-[var(--color-primary)] transition-colors flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-transparent before:rounded-full before:mr-2 hover:before:bg-pink-300 cursor-pointer">Price: low to high</button></li>
+                <li><button className="text-sm text-gray-400 font-bold hover:text-[var(--color-primary)] transition-colors flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-transparent before:rounded-full before:mr-2 hover:before:bg-pink-300 cursor-pointer">Price: high to low</button></li>
               </ul>
             </div>
 
@@ -283,7 +283,7 @@ const Shop = () => {
               <h1 className="text-xl font-black text-[#111] mb-4 md:mb-0 uppercase tracking-tighter">Anua</h1>
               <div className="flex items-center gap-4">
                 <span className="text-[13px] text-gray-400 font-black uppercase tracking-widest hidden md:inline-block">Sort by:</span>
-                <select className="bg-gray-50 border border-gray-100 rounded-lg px-3 py-1.5 focus:bg-white focus:ring-2 focus:ring-pink-50 outline-none cursor-pointer text-sm font-bold text-gray-600">
+                <select className="bg-gray-50 border border-gray-100 rounded-lg px-3 py-1.5 focus:bg-white focus:ring-2 focus:ring-primary-light outline-none cursor-pointer text-sm font-bold text-gray-600">
                   <option>Popularity</option>
                   <option>Average rating</option>
                   <option>Newness</option>
@@ -310,8 +310,8 @@ const Shop = () => {
             {/* Loading Indicator for Infinite Scroll */}
             {loading && (
               <div className="flex flex-col justify-center items-center py-16">
-                <div className="animate-spin rounded-full h-10 w-10 border-[3px] border-gray-100 border-t-[#FF4D6D]"></div>
-                <p className="mt-4 text-[#FF4D6D] font-black uppercase tracking-widest text-[11px] animate-pulse">Searching more items...</p>
+                <div className="animate-spin rounded-full h-10 w-10 border-[3px] border-gray-100 border-t-[var(--color-primary)]"></div>
+                <p className="mt-4 text-[var(--color-primary)] font-black uppercase tracking-widest text-[11px] animate-pulse">Searching more items...</p>
               </div>
             )}
           </main>

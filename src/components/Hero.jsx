@@ -5,39 +5,40 @@ import Link from 'next/link';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [slides, setSlides] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const slides = [
-    {
-      desktop: "https://kcbazar.com/wp-content/uploads/2026/03/eid-salami-SLIDER-PC.jpg",
-      mobile: "https://kcbazar.com/wp-content/uploads/2026/03/eid-salami-SLIDER-PHONE.jpg",
-      link: "/clearance-sale/"
-    },
-    {
-      desktop: "https://kcbazar.com/wp-content/uploads/2026/01/Clearance-sale-PC.jpg",
-      mobile: "https://kcbazar.com/wp-content/uploads/2026/01/Clearance-sale-MOBILE.jpg",
-      link: "/clearance-sale/"
-    },
-    {
-      desktop: "https://kcbazar.com/wp-content/uploads/2025/10/desktop-slider-free-home-delivery-2121tk.jpg",
-      mobile: "https://kcbazar.com/wp-content/uploads/2025/10/Mobile-slider-free-home-delivery-2121tk.jpg",
-      link: "/shop/?stock_status=instock"
-    },
-    {
-      desktop: "https://kcbazar.com/wp-content/uploads/2025/12/body-lotion-offer-slider.jpg",
-      mobile: "https://kcbazar.com/wp-content/uploads/2025/12/body-lotion-offer-slider.jpg",
-      link: "/product-category/body-hand-foot-care/body-care/body-lotion/?stock_status=instock,onsale"
-    },
-    {
-      desktop: "https://kcbazar.com/wp-content/uploads/2025/11/Emi-Slider-pc.jpg",
-      mobile: "https://kcbazar.com/wp-content/uploads/2025/11/Emi-Slider-mobile.jpg",
-      link: "/emi-details/"
-    },
-    {
-      desktop: "https://kcbazar.com/wp-content/uploads/2025/02/daraz-slider-pc.jpg",
-      mobile: "https://kcbazar.com/wp-content/uploads/2025/02/daraz-slider-mobile.jpg",
-      link: "https://www.daraz.com.bd/shop/kc-bazar"
-    }
-  ];
+  useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const res = await fetch('/api/hero-slides');
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setSlides(data);
+        } else {
+          // Fallback to defaults if no slides in DB
+          setSlides([
+            {
+              imageUrl: "https://kcbazar.com/wp-content/uploads/2026/03/eid-salami-SLIDER-PC.jpg",
+              mobileImageUrl: "https://kcbazar.com/wp-content/uploads/2026/03/eid-salami-SLIDER-PHONE.jpg",
+              linkUrl: "/clearance-sale/"
+            },
+            {
+              imageUrl: "https://kcbazar.com/wp-content/uploads/2026/01/Clearance-sale-PC.jpg",
+              mobileImageUrl: "https://kcbazar.com/wp-content/uploads/2026/01/Clearance-sale-MOBILE.jpg",
+              linkUrl: "/clearance-sale/"
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error("Failed to load slides", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSlides();
+  }, []);
+
 
   const promoCards = [
     {
@@ -74,28 +75,28 @@ const Hero = () => {
   }, [slides.length]);
 
   return (
-    <section className="py-2 bg-white">
-      <div className="max-w-[1320px] mx-auto px-0 sm:px-4">
+    <section className="py-2 bg-white kb-hero-wrapper">
+      <div className="max-w-[1320px] mx-auto px-0 sm:px-4 kb-hero-slider-container">
         
         {/* New Full Width Slider */}
-        <div className="relative rounded-2xl overflow-hidden h-[180px] sm:h-[350px] md:h-[480px] bg-gray-50 shadow-sm group">
+        <div className="relative rounded-2xl overflow-hidden h-[180px] sm:h-[350px] md:h-[480px] bg-gray-50 shadow-sm group kb-slider-main">
           {slides.map((slide, index) => (
             <Link
               key={index}
-              href={slide.link}
+              href={slide.linkUrl || "/"}
               className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
                 index === currentSlide ? 'opacity-100 scale-100 z-[1]' : 'opacity-0 scale-105 z-0'
               }`}
             >
               {/* Desktop Image */}
               <img 
-                src={slide.desktop} 
+                src={slide.imageUrl} 
                 alt={`Slide ${index}`} 
                 className="w-full h-full object-cover hidden sm:block"
               />
               {/* Mobile Image */}
               <img 
-                src={slide.mobile} 
+                src={slide.mobileImageUrl || slide.imageUrl} 
                 alt={`Slide ${index}`} 
                 className="w-full h-full object-cover block sm:hidden"
               />
@@ -106,14 +107,14 @@ const Hero = () => {
           <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
             <button
               onClick={(e) => { e.preventDefault(); setCurrentSlide(prev => (prev - 1 + slides.length) % slides.length); }}
-              className="w-12 h-12 bg-white/90 hover:bg-[#FF4D6D] hover:text-white rounded-full flex items-center justify-center shadow-lg transition-all pointer-events-auto transform hover:scale-110"
+              className="w-12 h-12 bg-white/90 text-primary hover:bg-primary hover:text-white rounded-full flex items-center justify-center shadow-lg transition-all pointer-events-auto transform hover:scale-110"
               aria-label="Previous slide"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M15 19l-7-7 7-7"/></svg>
             </button>
             <button
               onClick={(e) => { e.preventDefault(); setCurrentSlide(prev => (prev + 1) % slides.length); }}
-              className="w-12 h-12 bg-white/90 hover:bg-[#FF4D6D] hover:text-white rounded-full flex items-center justify-center shadow-lg transition-all pointer-events-auto transform hover:scale-110"
+              className="w-12 h-12 bg-white/90 text-primary hover:bg-primary hover:text-white rounded-full flex items-center justify-center shadow-lg transition-all pointer-events-auto transform hover:scale-110"
               aria-label="Next slide"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M9 5l7 7-7 7"/></svg>
@@ -127,7 +128,7 @@ const Hero = () => {
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`transition-all duration-500 rounded-full h-1.5 ${
-                  index === currentSlide ? 'bg-[#FF4D6D] w-8' : 'bg-gray-300 w-3 hover:bg-[#FF4D6D]/50'
+                  index === currentSlide ? 'bg-[var(--primary-color)] w-8' : 'bg-gray-300 w-3 hover:bg-[var(--primary-color)]/50'
                 }`}
               />
             ))}
@@ -155,7 +156,7 @@ const Hero = () => {
                   key={index}
                   onClick={() => setCurrentSlide(index)}
                   className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                    index === currentSlide ? 'bg-[#FF4D6D] w-6' : 'bg-white/50 w-2'
+                    index === currentSlide ? 'bg-[var(--primary-color)] w-6' : 'bg-white/50 w-2'
                   }`}
                 />
               ))}

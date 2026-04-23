@@ -4,53 +4,48 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 
 const MenuSidebar = ({ isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState('categories'); // 'categories' or 'menus'
+  const [activeTab, setActiveTab] = useState('menus'); // 'categories' or 'menus'
   const [drillDown, setDrillDown] = useState([]); // Stack of submenu objects
+  const [categories, setCategories] = useState([]);
+  const [settings, setSettings] = useState(null);
 
-  const categories = [
-    { name: "Skin Care", link: "/product-category/skin-care/", image: "https://kcbazar.com/wp-content/uploads/2025/06/Skin-Care-300x300.jpg" },
-    { name: "Makeup", link: "/product-category/make-up/", image: "https://kcbazar.com/wp-content/uploads/2026/02/makeup-300x300.jpeg" },
-    { name: "Lip Care", link: "/product-category/hair-eye-lip-care/lip-care/" },
-    { name: "Hair Care", link: "/product-category/hair-eye-lip-care/hair-care/" },
-    { name: "Combo Set", link: "/product-category/combo-set/" },
-    { name: "Body Care", link: "/product-category/body-hand-foot-care/body-care/" },
+  const staticMenus = [
+    { label: 'Shop', href: '/shop' },
+    { label: 'Offers', href: '/offers' },
+    { label: 'Brands', href: '/brands' },
+    { label: 'Clearance', href: '/clearance', isHot: true },
   ];
 
-  const menus = [
-    { 
-      label: 'Shop', 
-      href: '/shop',
-      submenus: [
-        { label: 'All Products', href: '/shop' },
-        { label: 'New Arrivals', href: '/new-arrivals' },
-        { label: 'Best Sellers', href: '/best-sellers' },
-      ]
-    },
-    { 
-      label: 'Eid Offer', 
-      href: '/clearance-sale/',
-      submenus: [
-        { label: 'Flash Sale', href: '/flash-sale' },
-        { label: 'Combo Offers', href: '/combo-offers' },
-      ]
-    },
-    { 
-      label: 'Brands', 
-      href: '/brand/',
-      submenus: [
-        { label: 'Missha', href: '/brand/missha' },
-        { label: 'CosRx', href: '/brand/cosrx' },
-        { label: 'Axis-Y', href: '/brand/axis-y' },
-        { label: 'Dabo', href: '/brand/dabo' },
-      ]
-    },
-    { label: 'Showrooms', href: '/showrooms/' },
-    { label: 'Career', href: '/career/' },
-  ];
+  // Helper to build a tree structure
+  const buildTree = (items, parentId = null) => {
+    return items
+      .filter(item => item.parentId === parentId)
+      .map(item => ({
+        ...item,
+        children: buildTree(items, item.id)
+      }));
+  };
 
-  const handleMenuClick = (menu) => {
-    if (menu.submenus) {
-      setDrillDown([...drillDown, menu]);
+  React.useEffect(() => {
+    fetch('/api/admin/categories')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setCategories(buildTree(data));
+        }
+      });
+    
+    fetch('/api/admin/settings')
+      .then(res => res.json())
+      .then(data => setSettings(data));
+  }, []);
+
+  const handleDrillDown = (item, isCategory = false) => {
+    const children = item.children;
+    const label = isCategory ? item.name : item.label;
+    
+    if (children && children.length > 0) {
+      setDrillDown([...drillDown, { label, submenus: children, isCategory }]);
     }
   };
 
@@ -60,8 +55,9 @@ const MenuSidebar = ({ isOpen, onClose }) => {
     setDrillDown(newDrillDown);
   };
 
-  const currentLevel = drillDown.length > 0 ? drillDown[drillDown.length - 1].submenus : (activeTab === 'categories' ? categories : menus);
-  const currentTitle = drillDown.length > 0 ? drillDown[drillDown.length - 1].label : null;
+  const currentDrill = drillDown[drillDown.length - 1] || null;
+  const currentLevel = currentDrill ? currentDrill.submenus : (activeTab === 'categories' ? categories : staticMenus);
+  const currentTitle = currentDrill?.label || null;
 
   return (
     <>
@@ -80,7 +76,7 @@ const MenuSidebar = ({ isOpen, onClose }) => {
           
           {/* Header */}
           <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
-            <h2 className="text-lg font-black text-[#111] uppercase tracking-tighter">Menu</h2>
+            <h2 className="text-lg font-black text-[#111] uppercase tracking-tighter">Navigation</h2>
             <button 
               onClick={() => {
                 onClose();
@@ -97,24 +93,43 @@ const MenuSidebar = ({ isOpen, onClose }) => {
             <div className="flex flex-col h-full">
               <button 
                 onClick={handleBack}
-                className="flex items-center gap-2 p-4 text-sm font-bold text-[#FF4D6D] border-b border-gray-50 bg-gray-50/50 hover:bg-[#fff0f3]"
+                className="flex items-center gap-2 p-4 text-sm font-bold text-primary border-b border-gray-50 bg-gray-50/50 hover:bg-primary-light"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M15 19l-7-7 7-7"/></svg>
                 Back to {drillDown.length > 1 ? drillDown[drillDown.length - 2].label : 'Main Menu'}
               </button>
-              <div className="p-4 bg-[#FF4D6D] text-white font-black uppercase text-xs tracking-widest">
+              <div className="p-4 bg-primary text-white font-black uppercase text-xs tracking-widest">
                 {currentTitle}
               </div>
               <div className="flex-1 overflow-y-auto">
-                {drillDown.length > 0 && drillDown[drillDown.length - 1].submenus.map((item, idx) => (
-                  <Link 
-                    key={idx} 
-                    href={item.href} 
-                    onClick={() => { onClose(); setDrillDown([]); }}
-                    className="block p-4 border-b border-gray-50 text-[14px] font-bold text-[#333] hover:text-[#FF4D6D] hover:bg-[#fff0f3] transition-colors"
-                  >
-                    {item.label}
-                  </Link>
+                {currentDrill && currentDrill.submenus.map((item, idx) => (
+                  <div key={idx} className="group border-b border-gray-50">
+                    {item.children && item.children.length > 0 ? (
+                      <div className="flex items-center">
+                        <Link 
+                          href={currentDrill.isCategory ? `/product-category/${item.slug}` : (item.href || '#')} 
+                          onClick={() => { onClose(); setDrillDown([]); }}
+                          className="flex-1 p-4 text-[14px] font-bold text-[#333] hover:text-primary hover:bg-primary-light transition-colors"
+                        >
+                          {currentDrill.isCategory ? item.name : item.label}
+                        </Link>
+                        <button 
+                          onClick={(e) => { e.preventDefault(); handleDrillDown(item, currentDrill.isCategory); }}
+                          className="w-14 h-14 flex items-center justify-center text-gray-300 hover:text-primary hover:bg-primary-light border-l border-gray-50 transition-all"
+                        >
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </button>
+                      </div>
+                    ) : (
+                      <Link 
+                        href={currentDrill.isCategory ? `/product-category/${item.slug}` : (item.href || '#')} 
+                        onClick={() => { onClose(); setDrillDown([]); }}
+                        className="block p-4 text-[14px] font-bold text-[#333] hover:text-primary hover:bg-primary-light transition-colors"
+                      >
+                        {currentDrill.isCategory ? item.name : item.label}
+                      </Link>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
@@ -124,13 +139,13 @@ const MenuSidebar = ({ isOpen, onClose }) => {
           <div className="flex border-b border-gray-100">
             <button 
               onClick={() => { setActiveTab('menus'); setDrillDown([]); }}
-              className={`flex-1 py-3 text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'menus' ? 'text-[#FF4D6D] border-b-2 border-[#FF4D6D] bg-[#fff0f3]/50' : 'text-gray-400'}`}
+              className={`flex-1 py-3 text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'menus' ? 'text-primary border-b-2 border-primary bg-primary-light/50' : 'text-gray-400'}`}
             >
               Menus
             </button>
             <button 
               onClick={() => { setActiveTab('categories'); setDrillDown([]); }}
-              className={`flex-1 py-3 text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'categories' ? 'text-[#FF4D6D] border-b-2 border-[#FF4D6D] bg-[#fff0f3]/50' : 'text-gray-400'}`}
+              className={`flex-1 py-3 text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'categories' ? 'text-primary border-b-2 border-primary bg-primary-light/50' : 'text-gray-400'}`}
             >
               Categories
             </button>
@@ -140,49 +155,53 @@ const MenuSidebar = ({ isOpen, onClose }) => {
           <div className="flex-1 overflow-y-auto">
             {activeTab === 'menus' ? (
               <div className="divide-y divide-gray-50">
-                {menus.map((menu, idx) => (
-                  <div key={idx} className="group">
-                    {menu.submenus ? (
-                      <button 
-                        onClick={() => handleMenuClick(menu)}
-                        className="w-full flex items-center justify-between p-4 text-[14px] font-bold text-[#333] hover:text-[#FF4D6D] hover:bg-[#fff0f3] transition-all"
-                      >
-                        <span>{menu.label}</span>
-                        <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path d="M9 5l7 7-7 7"/></svg>
-                      </button>
-                    ) : (
+                {staticMenus.map((menu, idx) => (
+                  <div key={idx} className="group border-b border-gray-50">
                       <Link 
                         href={menu.href}
                         onClick={onClose}
-                        className="block p-4 text-[14px] font-bold text-[#333] hover:text-[#FF4D6D] hover:bg-[#fff0f3]"
+                        className="block p-5 text-[14px] font-black uppercase tracking-tight text-[#111] hover:text-primary hover:bg-primary-light transition-all"
                       >
-                        {menu.label}
+                        <div className="flex items-center gap-2">
+                          {menu.isHot && <span>🔥</span>}
+                          <span>{menu.label}</span>
+                        </div>
                       </Link>
-                    )}
                   </div>
                 ))}
               </div>
             ) : (
               <div className="grid grid-cols-1 divide-y divide-gray-50">
                 {categories.map((cat, idx) => (
-                  <Link 
-                    key={idx} 
-                    href={cat.link}
-                    onClick={onClose}
-                    className="flex items-center gap-4 p-4 hover:bg-[#fff0f3] group transition-all"
-                  >
-                    <div className="w-12 h-12 rounded-lg bg-gray-50 overflow-hidden border border-gray-100 flex-shrink-0">
-                      {cat.image ? (
-                        <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-[#FF4D6D] bg-[#fff0f3]">
-                          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                  <div key={cat.id || idx} className="group border-b border-gray-50">
+                    <div className="flex items-center">
+                      <Link 
+                        href={`/product-category/${cat.slug}`}
+                        onClick={onClose}
+                        className="flex-1 flex items-center gap-4 p-4 hover:bg-primary-light group transition-all"
+                      >
+                        <div className="w-12 h-12 rounded-lg bg-gray-50 overflow-hidden border border-gray-100 flex-shrink-0">
+                          {cat.image ? (
+                            <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-primary bg-primary-light">
+                              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                            </div>
+                          )}
                         </div>
+                        <span className="text-[14px] font-bold text-[#333] group-hover:text-primary">{cat.name}</span>
+                      </Link>
+                      
+                      {cat.children && cat.children.length > 0 && (
+                        <button 
+                          onClick={() => handleDrillDown(cat, true)}
+                          className="w-14 h-20 flex items-center justify-center text-gray-300 hover:text-primary hover:bg-primary-light border-l border-gray-50 transition-all"
+                        >
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </button>
                       )}
                     </div>
-                    <span className="text-[14px] font-bold text-[#333] group-hover:text-[#FF4D6D]">{cat.name}</span>
-                    <svg className="w-4 h-4 ml-auto text-gray-300 opacity-0 group-hover:opacity-100 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path d="M9 5l7 7-7 7"/></svg>
-                  </Link>
+                  </div>
                 ))}
               </div>
             )}
@@ -191,15 +210,15 @@ const MenuSidebar = ({ isOpen, onClose }) => {
           {/* Bottom Info */}
           <div className="p-6 bg-gray-50 border-t border-gray-100">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#FF4D6D] shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
               </div>
               <div>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Hotline</p>
-                <p className="text-sm font-black text-[#111]">09644-888889</p>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Order Hotline</p>
+                <p className="text-sm font-black text-[#111]">{settings?.hotline || "09644-888889"}</p>
               </div>
             </div>
-            <p className="text-[11px] text-gray-400 font-medium">© 2024 KC Bazar. All rights reserved.</p>
+            <p className="text-[11px] text-gray-400 font-medium">© 2025 {settings?.siteTitle || 'KC Bazar'}. All rights reserved.</p>
           </div>
         </div>
       </div>
