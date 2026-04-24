@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 
 export default function GeneralSettings() {
   const [settings, setSettings] = useState({
+    siteName: "",
     marqueeText: "",
     announcements: [],
     hotline: "",
@@ -14,7 +15,7 @@ export default function GeneralSettings() {
     facebook: "",
     instagram: "",
     whatsapp: "",
-    themeColor: "var(--color-primary)",
+    themeColor: "",
     logoUrl: "",
     faviconUrl: "",
     shortDescription: "",
@@ -167,6 +168,7 @@ export default function GeneralSettings() {
     setMessage(null);
 
     const payload = {
+        siteName: settings.siteName,
         marqueeText: settings.announcements[0] || "",
         announcements: JSON.stringify(settings.announcements),
         hotline: settings.hotline,
@@ -310,6 +312,20 @@ export default function GeneralSettings() {
                                     </span>
                                 </label>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest block">Official Site Name</label>
+                        <div className="space-y-4">
+                            <input 
+                                type="text" 
+                                value={settings.siteName || ""}
+                                onChange={(e) => setSettings({...settings, siteName: e.target.value})}
+                                placeholder="e.g. KC Bazar"
+                                className="w-full h-16 px-6 border border-gray-200 rounded-2xl bg-gray-50/30 outline-none focus:bg-white focus:border-primary transition-all font-black text-sm tracking-tighter" 
+                            />
+                            <p className="text-[9px] text-gray-400 font-medium italic">Global brand name used across the entire platform.</p>
                         </div>
                     </div>
 

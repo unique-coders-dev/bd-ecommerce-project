@@ -5,6 +5,7 @@ export async function GET() {
   try {
     const slides = await prisma.heroSlide.findMany({
       where: { isActive: true },
+      include: { products: { select: { id: true } } },
       orderBy: { order: 'asc' },
     });
     return NextResponse.json(slides);

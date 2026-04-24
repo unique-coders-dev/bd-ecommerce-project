@@ -1,15 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+
+const DEFAULT_LOGO = "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png";
 
 export default function RegisterPage() {
   const router = useRouter();
   const [data, setData] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [siteSettings, setSiteSettings] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/admin/settings')
+      .then(res => res.json())
+      .then(d => setSiteSettings(d))
+      .catch(() => {});
+  }, []);
+
+  const logoUrl = siteSettings?.logoUrl || DEFAULT_LOGO;
+  const siteName = siteSettings?.siteName || "KC Bazar";
 
   const registerUser = async (e) => {
     e.preventDefault();
@@ -52,8 +65,8 @@ export default function RegisterPage() {
         <div className="text-center">
             <Link href="/" className="inline-block group transition-transform hover:scale-105 active:scale-95">
                 <img
-                    src="https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png"
-                    alt="KC Bazar Logo"
+                    src={logoUrl}
+                    alt={`${siteName} Logo`}
                     className="h-10 w-auto mx-auto mb-6"
                 />
             </Link>

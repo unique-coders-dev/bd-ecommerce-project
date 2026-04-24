@@ -1,15 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+
+const DEFAULT_LOGO = "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png";
 
 export default function LoginPage() {
   const router = useRouter();
   const [data, setData] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [siteSettings, setSiteSettings] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/admin/settings')
+      .then(res => res.json())
+      .then(d => setSiteSettings(d))
+      .catch(() => {});
+  }, []);
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -34,15 +44,8 @@ export default function LoginPage() {
     }
   };
 
-  const [logoUrl, setLogoUrl] = useState("https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png");
-
-  useState(() => {
-    fetch('/api/admin/settings')
-      .then(res => res.json())
-      .then(data => {
-        if (data?.logoUrl) setLogoUrl(data.logoUrl);
-      });
-  }, []);
+  const logoUrl = siteSettings?.logoUrl || DEFAULT_LOGO;
+  const siteName = siteSettings?.siteName || "KC Bazar";
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[#f8f9fa] py-12 px-4 sm:px-6 lg:px-8 font-['Inter',sans-serif]">
@@ -51,7 +54,7 @@ export default function LoginPage() {
             <Link href="/" className="inline-block group transition-transform hover:scale-105 active:scale-95">
                 <img
                     src={logoUrl}
-                    alt="KC Bazar Logo"
+                    alt={`${siteName} Logo`}
                     className="h-12 w-auto mx-auto mb-8"
                 />
             </Link>
@@ -127,7 +130,7 @@ export default function LoginPage() {
 
         <div className="pt-6 border-t border-gray-50 text-center">
             <p className="text-gray-400 text-sm font-medium">
-                New to KC Bazar?{" "}
+                New to {siteName}?{" "}
                 <Link
                 href="/auth/register"
                 className="font-black text-[var(--color-primary)] uppercase text-[11px] tracking-widest hover:underline"

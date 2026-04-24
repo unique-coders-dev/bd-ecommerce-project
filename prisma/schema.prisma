@@ -14,7 +14,12 @@ model User {
   emailVerified    DateTime?
   password         String?
   image            String?
+  phone            String?
+  address          String?
+  city             String?
+  district         String?
   role             String    @default("customer")
+  status           String    @default("active")
   permissions      String    @default("")
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
@@ -22,6 +27,7 @@ model User {
   resetTokenExpiry DateTime?
   accounts         Account[]
   sessions         Session[]
+  orders           Order[]
 }
 
 model Account {
@@ -52,6 +58,7 @@ model Session {
 
 model Setting {
   id               String   @id @default("site-settings")
+  siteName         String?  @default("KC Bazar")
   marqueeText      String   @default("Welcome to KC Bazar! Free shipping on orders over ৳1000.")
   announcements    String   @default("[\"Welcome to KC Bazar! Free shipping on orders over ৳1000.\"]")
   hotline          String   @default("09644888889")
@@ -80,6 +87,11 @@ model Setting {
   termsConditions       String   @default("Our terms and conditions...")
   faqContent            String   @default("Frequently asked questions...")
   careerContent         String   @default("Career opportunities at KC Bazar...")
+  orderConfirmMsg1      String   @default("আপনার অর্ডারটি আগামী ২৪ ঘন্টার মধ্যে আমাদের কাস্টমার কেয়ার প্রতিনিধি ফোন দিয়ে কনফার্ম করবেন (শুক্রবার ব্যতীত)।")
+  orderConfirmMsg2      String   @default("ফোন কনফার্ম হওয়ার ২৪-৪৮ ঘণ্টার মধ্যে আপনি আপনার অর্ডারটি হাতে পেয়ে যাবেন।")
+  orderConfirmMsg3      String   @default("বিঃদ্রঃ কোনো কারনে ফোন কল না পেলে, আপনার অর্ডারটি হোল্ড অবস্থায় থাকবে। অনুগ্রহ করে আমাদের কাস্টমার কেয়ারের কলটি রিসিভ করবেন।")
+  orderConfirmHotline   String   @default("09613660321")
+  orderConfirmFooter    String   @default("ধন্যবাদ kcbazar এর সাথে থাকার জন্য!")
   updatedAt             DateTime @updatedAt
 }
 
@@ -136,6 +148,8 @@ model HeroSlide {
   linkUrl         String?  @default("/")
   order           Int      @default(0)
   isActive        Boolean  @default(true)
+  isAllProducts   Boolean  @default(false)
+  products        Product[] @relation("HeroSlideProducts")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
@@ -157,20 +171,41 @@ model Product {
   sku          String?
   image        String
   images       String?
+  isFeatured   Boolean  @default(false)
   isActive     Boolean  @default(true)
   isClearance  Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  reviews      Review[]
+  orderItems   OrderItem[]
+  heroSlides   HeroSlide[] @relation("HeroSlideProducts")
+  banners      Banner[]    @relation("BannerProducts")
 }
-model Banner {
+
+model Review {
   id        String   @id @default(cuid())
-  imageUrl  String
-  linkUrl   String?  @default("/")
-  position  String
-  order     Int      @default(0)
-  isActive  Boolean  @default(true)
+  productId String
+  userName  String
+  userEmail String?
+  rating    Int
+  comment   String
+  status    String   @default("approved")
+  isDummy   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+model Banner {
+  id              String   @id @default(cuid())
+  imageUrl        String
+  linkUrl         String?  @default("/")
+  position        String
+  order           Int      @default(0)
+  isActive        Boolean  @default(true)
+  isAllProducts   Boolean  @default(false)
+  products        Product[] @relation("BannerProducts")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Brand {
@@ -182,5 +217,56 @@ model Brand {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  customerName    String
+  customerEmail   String?
+  customerPhone   String
+  customerAddress String
+  customerCity    String
+  customerArea    String?
+  totalAmount     Float
+  subtotal        Float
+  discount        Float       @default(0)
+  shippingFee     Float       @default(0)
+  couponId        String?
+  paymentMethod   String      @default("COD")
+  status          String      @default("pending")
+  userId          String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  user            User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  coupon          Coupon?     @relation(fields: [couponId], references: [id])
+  orderItems      OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  productName String
+  quantity  Int
+  price     Float
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Coupon {
+  id              String   @id @default(cuid())
+  code            String   @unique
+  discountType    String   @default("percentage") // "percentage" or "fixed"
+  discountValue   Float
+  minOrderAmount  Float?   @default(0)
+  maxDiscount     Float?
+  usageLimit      Int?     // null means unlimited
+  usageCount      Int      @default(0)
+  expiryDate      DateTime?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  orders          Order[]
 }
 

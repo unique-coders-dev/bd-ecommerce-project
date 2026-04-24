@@ -5,6 +5,7 @@ export async function GET() {
   try {
     const banners = await prisma.banner.findMany({
       where: { isActive: true },
+      include: { products: { select: { id: true } } },
       orderBy: { order: 'asc' },
     });
     return NextResponse.json(banners);

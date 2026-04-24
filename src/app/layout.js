@@ -1,6 +1,7 @@
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { prisma } from "../lib/prisma";
+import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({
   weight: ["400", "500", "700", "900"],
@@ -31,6 +32,8 @@ export async function generateMetadata() {
     }
   };
 }
+
+import { Providers } from "@/components/Providers";
 
 export default async function RootLayout({ children }) {
   let settings = null;
@@ -64,7 +67,10 @@ export default async function RootLayout({ children }) {
         }}
         suppressHydrationWarning
       >
-        {children}
+        <Toaster position="bottom-right" />
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

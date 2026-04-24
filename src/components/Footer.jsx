@@ -37,7 +37,7 @@ const Footer = ({ settings, categories = [] }) => {
           <Link href="/" className="block w-[160px] mb-6">
             <img
               src={logoUrl}
-              alt="KC Bazar Logo"
+              alt={`${settings?.siteName || 'Store'} Logo`}
               className="w-full"
             />
           </Link>
@@ -114,7 +114,7 @@ const Footer = ({ settings, categories = [] }) => {
       {/* Copyright */}
       <div className="border-t border-gray-100 py-6 bg-gray-50">
         <p className="text-center text-[11px] text-[#999] uppercase tracking-widest leading-relaxed px-4">
-          © 2025 KC BAZAR. All rights reserved. <span className="mx-2">|</span> Powered by KC Bazar IT Team
+          © {new Date().getFullYear()} {settings?.siteName || settings?.siteTitle?.split('|')[0]?.trim() || 'KC Bazar'}. All rights reserved. <span className="mx-2">|</span> Powered by {settings?.siteName || 'KC Bazar'} IT Team
         </p>
       </div>
     </footer>

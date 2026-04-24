@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-export function HomeBanners({ position }) {
+export function HomeBanners({ position, limit }) {
     const [banners, setBanners] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -24,6 +24,15 @@ export function HomeBanners({ position }) {
         fetchBanners();
     }, []);
 
+    const getAssetLink = (item) => {
+      if (item.isAllProducts) return '/shop';
+      if (item.products && item.products.length > 0) {
+        if (item.products.length === 1) return `/product/${item.products[0].id}`;
+        return `/collection/${item.id}`;
+      }
+      return item.linkUrl || '/';
+    };
+
     if (loading) return null;
 
     // Filter banners based on position
@@ -33,13 +42,16 @@ export function HomeBanners({ position }) {
         banners.find(b => b.position === 'row-2'),
         banners.find(b => b.position === 'row-3')
     ].filter(Boolean);
-    const postCategoryBanners = banners.filter(b => b.position === 'category-after').slice(0, 6);
+    const postCategoryBanners = banners
+        .filter(b => b.position === 'category-after')
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, limit || 12);
 
     if (position === 'hero-after') {
         if (!primaryBanner) return null;
         return (
             <div className="max-w-[1320px] mx-auto px-4 my-8 kb-primary-banner-wrapper">
-                <Link href={primaryBanner.linkUrl || "/"} className="block group overflow-hidden rounded-2xl shadow-xl shadow-black/5 kb-banner-impact">
+                <Link href={getAssetLink(primaryBanner)} className="block group overflow-hidden rounded-2xl shadow-xl shadow-black/5 kb-banner-impact">
                     <img 
                         src={primaryBanner.imageUrl} 
                         alt="Promo Banner" 
@@ -63,7 +75,7 @@ export function HomeBanners({ position }) {
                     {/* Left Column: First 2 items side-by-side */}
                     <div className="grid grid-cols-2 gap-4 h-full kb-trio-dual-slot">
                         {firstTwo.map((banner) => (
-                            <Link key={banner.id} href={banner.linkUrl || "/"} className="block group overflow-hidden rounded-xl shadow-lg shadow-black/5 h-full">
+                            <Link key={banner.id} href={getAssetLink(banner)} className="block group overflow-hidden rounded-xl shadow-lg shadow-black/5 h-full">
                                  <img 
                                     src={banner.imageUrl} 
                                     alt="Promo" 
@@ -74,7 +86,7 @@ export function HomeBanners({ position }) {
                     </div>
                     {/* Right Column: 3rd item full width */}
                     {lastOne && (
-                        <Link href={lastOne.linkUrl || "/"} className="block group overflow-hidden rounded-xl shadow-lg shadow-black/5 h-full">
+                        <Link href={getAssetLink(lastOne)} className="block group overflow-hidden rounded-xl shadow-lg shadow-black/5 h-full">
                             <img 
                                src={lastOne.imageUrl} 
                                alt="Promo" 
@@ -93,7 +105,7 @@ export function HomeBanners({ position }) {
             <div className="max-w-[1320px] mx-auto px-4 my-12 kb-post-category-banners-container">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 kb-category-banner-layout">
                     {postCategoryBanners.map((banner) => (
-                        <Link key={banner.id} href={banner.linkUrl || "/"} className="block group overflow-hidden rounded-[24px] border border-black/5 shadow-sm kb-category-banner-item">
+                        <Link key={banner.id} href={getAssetLink(banner)} className="block group overflow-hidden rounded-[24px] border border-black/5 shadow-sm kb-category-banner-item">
                              <img 
                                 src={banner.imageUrl} 
                                 alt="Promotion" 

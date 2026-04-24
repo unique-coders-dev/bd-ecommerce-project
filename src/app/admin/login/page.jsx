@@ -1,14 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [data, setData] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [siteSettings, setSiteSettings] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/admin/settings")
+      .then((res) => res.json())
+      .then((d) => setSiteSettings(d))
+      .catch(() => {});
+  }, []);
+
+  const siteName = siteSettings?.siteName || "Admin";
+  const logoUrl = siteSettings?.logoUrl || null;
+
+  // Generate monogram: first character of each word, max 2 chars
+  const monogram = siteName
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   const loginAdmin = async (e) => {
     e.preventDefault();
@@ -24,7 +44,6 @@ export default function AdminLoginPage() {
         setError("Invalid admin credentials");
         setLoading(false);
       } else if (callback?.ok && !callback?.error) {
-        // Redirect directly to admin dashboard
         router.push("/admin");
         router.refresh();
       }
@@ -38,9 +57,23 @@ export default function AdminLoginPage() {
     <div className="flex h-screen w-full items-center justify-center bg-[#f1f2f6] px-4 font-['Inter',sans-serif]">
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-10 shadow-2xl border border-gray-100">
         <div className="text-center">
+          {/* Logo: show image if available, otherwise monogram */}
+          {logoUrl ? (
+            <Link href="/" className="inline-block mb-6">
+              <img
+                src={logoUrl}
+                alt={`${siteName} Logo`}
+                className="h-14 w-auto mx-auto object-contain"
+              />
+            </Link>
+          ) : (
             <div className="mx-auto w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-primary/30">
-                <span className="text-white font-black text-2xl">KC</span>
+              <span className="text-white font-black text-2xl tracking-tighter">
+                {monogram}
+              </span>
             </div>
+          )}
+
           <h2 className="text-3xl font-black tracking-tight text-[#111] uppercase">
             Admin Portal
           </h2>
@@ -52,7 +85,10 @@ export default function AdminLoginPage() {
         <form className="mt-10 space-y-6" onSubmit={loginAdmin}>
           <div className="space-y-4">
             <div>
-              <label className="block text-[11px] font-black uppercase tracking-wider text-gray-400 mb-2" htmlFor="email">
+              <label
+                className="block text-[11px] font-black uppercase tracking-wider text-gray-400 mb-2"
+                htmlFor="email"
+              >
                 Email address
               </label>
               <input
@@ -68,7 +104,10 @@ export default function AdminLoginPage() {
               />
             </div>
             <div>
-              <label className="block text-[11px] font-black uppercase tracking-wider text-gray-400 mb-2" htmlFor="password">
+              <label
+                className="block text-[11px] font-black uppercase tracking-wider text-gray-400 mb-2"
+                htmlFor="password"
+              >
                 Password
               </label>
               <input
@@ -80,14 +119,16 @@ export default function AdminLoginPage() {
                 className="block w-full h-12 px-4 rounded-xl border border-gray-200 bg-gray-50/50 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all"
                 placeholder="••••••••"
                 value={data.password}
-                onChange={(e) => setData({ ...data, password: e.target.value })}
+                onChange={(e) =>
+                  setData({ ...data, password: e.target.value })
+                }
               />
             </div>
           </div>
 
           {error && (
             <div className="bg-primary-soft text-primary text-xs font-bold p-3 rounded-lg text-center border border-primary-soft animate-shake">
-                {error}
+              {error}
             </div>
           )}
 
@@ -98,19 +139,39 @@ export default function AdminLoginPage() {
               className="w-full h-14 bg-[#111] text-white flex items-center justify-center font-black uppercase tracking-[2px] rounded-xl text-sm hover:bg-black transition-all shadow-xl shadow-black/10 disabled:opacity-70 group"
             >
               {loading ? (
-                  <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-              ) : "Authenticate"}
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              ) : (
+                "Authenticate"
+              )}
             </button>
           </div>
         </form>
 
         <div className="text-center pt-2">
-            <a href="/" className="text-[11px] font-bold text-gray-400 hover:text-primary transition-colors uppercase tracking-widest">
-                Return to storefront
-            </a>
+          <a
+            href="/"
+            className="text-[11px] font-bold text-gray-400 hover:text-primary transition-colors uppercase tracking-widest"
+          >
+            Return to storefront
+          </a>
         </div>
       </div>
     </div>

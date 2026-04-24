@@ -78,7 +78,7 @@ const Brands = () => {
             brands.map((brand) => (
                 <Link 
                   key={brand.id} 
-                  href={brand.linkUrl || '/'}
+                  href={`/shop?brand=${encodeURIComponent(brand.name)}`}
                   className="min-w-[140px] md:min-w-[180px] h-24 bg-white border border-gray-100 rounded-2xl flex items-center justify-center p-6 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--primary-color)]/5 hover:-translate-y-1 group relative flex-shrink-0 cursor-pointer"
                   title={brand.name}
                 >

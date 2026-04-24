@@ -218,7 +218,7 @@ const MenuSidebar = ({ isOpen, onClose }) => {
                 <p className="text-sm font-black text-[#111]">{settings?.hotline || "09644-888889"}</p>
               </div>
             </div>
-            <p className="text-[11px] text-gray-400 font-medium">© 2025 {settings?.siteTitle || 'KC Bazar'}. All rights reserved.</p>
+            <p className="text-[11px] text-gray-400 font-medium">© {new Date().getFullYear()} {settings?.siteName || settings?.siteTitle?.split('|')[0]?.trim() || 'KC Bazar'} | Premium Beauty & Wellness. All rights reserved.</p>
           </div>
         </div>
       </div>

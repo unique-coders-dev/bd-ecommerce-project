@@ -21,6 +21,7 @@ const EMPTY_FORM = {
   images: [],
   isActive: true,
   isClearance: false,
+  isFeatured: false,
 };
 
 export default function AdminProducts() {
@@ -153,6 +154,7 @@ export default function AdminProducts() {
         images: item.images ? JSON.parse(item.images) : [],
         isActive: item.isActive,
         isClearance: item.isClearance,
+        isFeatured: item.isFeatured || false,
       });
     } else {
       setEditingItem(null);
@@ -349,11 +351,21 @@ export default function AdminProducts() {
                 <tr key={p.id} className="hover:bg-gray-50/30 transition-all group">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-xl border border-gray-100 bg-white p-1 shrink-0 overflow-hidden">
+                      <div className="w-14 h-14 rounded-xl border border-gray-100 bg-white p-1 shrink-0 overflow-hidden relative">
                         <img src={p.image} alt={p.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" />
+                        {p.isFeatured && (
+                          <div className="absolute top-0 right-0 p-1">
+                            <div className="w-3 h-3 bg-amber-500 rounded-full border-2 border-white shadow-sm" title="Featured Product" />
+                          </div>
+                        )}
                       </div>
                       <div>
-                        <p className="text-sm font-black text-[#111] line-clamp-1 max-w-[200px]">{p.name}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-black text-[#111] line-clamp-1 max-w-[200px]">{p.name}</p>
+                          {p.isFeatured && (
+                            <span className="bg-amber-100 text-amber-700 text-[8px] font-black uppercase px-1.5 py-0.5 rounded border border-amber-200 tracking-tighter">Featured</span>
+                          )}
+                        </div>
                         {p.shortBrief && <p className="text-[10px] text-gray-400 line-clamp-1 max-w-[180px]">{p.shortBrief}</p>}
                       </div>
                     </div>
@@ -379,9 +391,16 @@ export default function AdminProducts() {
                   </td>
                   <td className="px-6 py-4 text-[11px] font-mono text-gray-400">{p.sku || '—'}</td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${p.isActive ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
-                      {p.isActive ? 'Live' : 'Draft'}
-                    </span>
+                    <div className="flex flex-col gap-1">
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest w-fit ${p.isActive ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
+                        {p.isActive ? 'Live' : 'Draft'}
+                      </span>
+                      {p.isFeatured && (
+                        <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest w-fit bg-amber-50 text-amber-600 border border-amber-100">
+                          Featured
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-1">
@@ -636,6 +655,12 @@ export default function AdminProducts() {
                   <input type="checkbox" name="isClearance" id="isClearance" checked={formData.isClearance} onChange={handleInput} className="w-5 h-5 accent-primary" />
                   <label htmlFor="isClearance" className="text-[11px] font-black uppercase text-primary tracking-widest cursor-pointer">
                     Stock Clearance Item 🔥
+                  </label>
+                </div>
+                <div className="flex items-center gap-4 bg-amber-50 px-6 py-4 rounded-2xl border border-amber-100 col-span-1 md:col-span-2">
+                  <input type="checkbox" name="isFeatured" id="isFeatured" checked={formData.isFeatured} onChange={handleInput} className="w-5 h-5 accent-amber-600" />
+                  <label htmlFor="isFeatured" className="text-[11px] font-black uppercase text-amber-600 tracking-widest cursor-pointer">
+                    ✨ Featured Product (Only one at a time)
                   </label>
                 </div>
               </div>

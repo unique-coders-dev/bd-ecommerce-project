@@ -29,6 +29,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null; // Handle if the user exists but has no password (e.g. used OAuth)
         }
 
+        if (user.status === 'suspended') {
+          throw new Error("Your account has been suspended. Please contact support.");
+        }
+
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
           user.password

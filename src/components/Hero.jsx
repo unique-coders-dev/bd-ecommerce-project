@@ -39,6 +39,15 @@ const Hero = () => {
     fetchSlides();
   }, []);
 
+  const getAssetLink = (item) => {
+    if (item.isAllProducts) return '/shop';
+    if (item.products && item.products.length > 0) {
+      if (item.products.length === 1) return `/product/${item.products[0].id}`;
+      return `/collection/${item.id}`;
+    }
+    return item.linkUrl || '/';
+  };
+
 
   const promoCards = [
     {
@@ -83,7 +92,7 @@ const Hero = () => {
           {slides.map((slide, index) => (
             <Link
               key={index}
-              href={slide.linkUrl || "/"}
+              href={getAssetLink(slide)}
               className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
                 index === currentSlide ? 'opacity-100 scale-100 z-[1]' : 'opacity-0 scale-105 z-0'
               }`}

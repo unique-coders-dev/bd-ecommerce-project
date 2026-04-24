@@ -21,7 +21,7 @@ export default async function BrandsPage() {
         {brands.map((brand) => (
           <Link 
             key={brand.id} 
-            href={brand.linkUrl || `/shop?brand=${encodeURIComponent(brand.name)}`}
+            href={`/shop?brand=${encodeURIComponent(brand.name)}`}
             className="group bg-white border border-gray-100 p-8 rounded-[40px] flex flex-col items-center justify-center hover:shadow-2xl hover:border-primary/20 transition-all duration-500 hover:-translate-y-2 aspect-square"
           >
             <div className="w-full h-full relative flex items-center justify-center">

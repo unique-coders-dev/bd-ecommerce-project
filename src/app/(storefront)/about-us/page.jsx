@@ -14,7 +14,7 @@ export default async function AboutUs() {
         <img 
             src={settings?.aboutUsImageUrl || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=2000&auto=format&fit=crop"} 
             className="absolute inset-0 w-full h-full object-cover scale-105" 
-            alt="About KC Bazar"
+            alt={`About ${settings?.siteName || 'Us'}`}
         />
         <div className="relative z-20 text-center px-4">
             <h1 className="text-4xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-4">
@@ -32,7 +32,7 @@ export default async function AboutUs() {
                 <span className="text-[12px] font-black uppercase tracking-[4px] text-primary">Who we are</span>
                 <h2 className="text-4xl font-black text-[#111] leading-tight uppercase">Elevating beauty through authenticity.</h2>
                 <p className="text-gray-400 font-medium leading-relaxed whitespace-pre-line">
-                    {settings?.aboutUsDescription || "KC Bazar started with a simple belief: everyone deserves access to premium quality beauty products that truly work."}
+                    {settings?.aboutUsDescription || `${settings?.siteName || 'We'} started with a simple belief: everyone deserves access to premium quality beauty products that truly work.`}
                 </p>
             </div>
             <div className="rounded-[40px] overflow-hidden shadow-2xl rotate-3 transition-transform hover:rotate-0 duration-700">
@@ -50,7 +50,7 @@ export default async function AboutUs() {
 
         {/* Closing Section */}
         <div className="text-center space-y-10">
-            <h2 className="text-4xl font-black text-[#111] uppercase">Join the KC Community</h2>
+            <h2 className="text-4xl font-black text-[#111] uppercase">Join the {settings?.siteName || 'Community'}</h2>
             <Link 
                 href="/shop" 
                 className="inline-block px-12 py-5 bg-[#111] text-white font-black uppercase text-sm tracking-widest rounded-2xl hover:bg-black transition-all hover:scale-105 shadow-xl shadow-black/10"

@@ -1,39 +1,70 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useCartStore } from '@/store/cartStore';
+import toast from 'react-hot-toast';
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Nature Skin Jeju Green Tea CICA Hydrating Facial Foam 152 ml",
-      price: 800,
-      quantity: 1,
-      image: "https://kcbazar.com/wp-content/uploads/2023/12/Nature-Skin-Jeju-Green-Tea-CICA-Hydrating-Facial-Foam-152-ml-300x300.jpg"
-    }
-  ]);
+  const cartItems = useCartStore((state) => state.cartItems);
+  const updateQuantityStore = useCartStore((state) => state.updateQuantity);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const getCartTotal = useCartStore((state) => state.getCartTotal);
+  const getCartSubtotal = useCartStore((state) => state.getCartSubtotal);
+  const getCartDiscount = useCartStore((state) => state.getCartDiscount);
+  const appliedCoupon = useCartStore((state) => state.appliedCoupon);
+  const setAppliedCoupon = useCartStore((state) => state.setAppliedCoupon);
+  const clearAppliedCoupon = useCartStore((state) => state.clearAppliedCoupon);
+  const getCouponDiscount = useCartStore((state) => state.getCouponDiscount);
+
+  const [couponInput, setCouponInput] = useState('');
+  const [verifying, setVerifying] = useState(false);
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const updateQuantity = (id, delta) => {
-    setCartItems(prev => prev.map(item => 
-      item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
-    ));
+    const item = cartItems.find(i => i.id === id);
+    if (item) {
+      updateQuantityStore(id, item.quantity + delta);
+    }
   };
 
   const removeItem = (id) => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
+    removeFromCart(id);
   };
 
-  const calculateSubtotal = () => cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-
-  const deliveryFaqs = [
-    { question: "My order hasn't arrived yet. Where is it?", answer: "পণ্য সঠিক সময়ে আপনার কাছে না পৌঁছালে সরাসরি আমাদের হট লাইন (09613660321) নাম্বারে যোগাযোগ করুন এবং সমস্যাটির কথা জানান। আমরা দ্রুত ব্যবস্থা নিব।" },
-    { question: "Do you deliver on public holidays?", answer: "হ্যাঁ, আমরা ছুটির দিনগুলোতেও নির্দিষ্ট এলাকাভেদে ডেলিভারি দিয়ে থাকি।" },
-    { question: "Do you deliver to my postcode?", answer: "আমরা সারা বাংলাদেশে হোম ডেলিভারি দিয়ে থাকি।" },
-    { question: "Want more about Delivery & Return?", answer: "আমাদের ডেলিভারি ও রিটার্ন পলিসি বিস্তারিত জানতে লিংকে ক্লিক করুন।" }
-  ];
+  const handleApplyCoupon = async () => {
+    if (!couponInput) return;
+    setVerifying(true);
+    const loadingToast = toast.loading("Verifying coupon...");
+    try {
+        const res = await fetch('/api/coupons/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: couponInput, cartTotal: getCartTotal() })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            setAppliedCoupon(data);
+            toast.success(`Coupon "${data.code}" applied!`, { id: loadingToast });
+            setCouponInput('');
+        } else {
+            toast.error(data.error, { id: loadingToast });
+        }
+    } catch (err) {
+        toast.error("Network error", { id: loadingToast });
+    } finally {
+        setVerifying(false);
+    }
+  };
 
   const [openFaq, setOpenFaq] = useState(0);
+
+  if (!mounted) return null;
 
   return (
     <div className="bg-[#f2f2f2] min-h-screen py-10">
@@ -60,40 +91,58 @@ const Cart = () => {
                   <thead>
                     <tr className="border-b border-gray-100 text-[11px] font-black uppercase text-gray-400">
                       <th className="py-6 px-6">Product</th>
-                      <th className="py-6 px-4">Price</th>
                       <th className="py-6 px-4">Quantity</th>
-                      <th className="py-6 px-6">Subtotal</th>
+                      <th className="py-6 px-4 text-right">Price</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-50">
-                    {cartItems.map(item => (
-                      <tr key={item.id} className="group hover:bg-gray-50/50 transition-colors">
-                        <td className="py-6 px-6">
-                          <div className="flex items-center gap-4">
-                            <button 
-                               onClick={() => removeItem(item.id)}
-                               className="text-gray-300 hover:text-primary-light0 transition-colors cursor-pointer"
-                            >
-                              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M6 18L18 6M6 6l12 12"/></svg>
-                            </button>
-                            <img src={item.image} alt={item.name} className="w-20 h-20 object-contain border border-gray-100 rounded-lg bg-white" />
-                            <Link href={`/product/${item.id}`} className="text-sm font-bold text-[#111] leading-tight max-w-[250px] hover:text-[var(--color-primary)] transition-colors">{item.name}</Link>
-                          </div>
-                        </td>
-                        <td className="py-6 px-4 text-sm font-bold text-gray-500">৳ {item.price}</td>
-                        <td className="py-6 px-4">
-                          <div className="flex items-center border border-gray-200 rounded-lg w-fit bg-white h-[44px]">
-                            <button onClick={() => updateQuantity(item.id, -1)} className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-[var(--color-primary)] cursor-pointer active:scale-90">-</button>
-                            <span className="w-10 text-center font-bold text-[#111]">{item.quantity}</span>
-                            <button onClick={() => updateQuantity(item.id, 1)} className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-[var(--color-primary)] cursor-pointer active:scale-90">+</button>
-                          </div>
-                        </td>
-                        <td className="py-6 px-6 text-sm font-black text-[var(--color-primary)]">৳ {item.price * item.quantity}</td>
-                      </tr>
-                    ))}
+                    {cartItems.map(item => {
+                        const discountVal = parseFloat(item.discount);
+                        const hasDiscountLabel = discountVal > 0;
+                        const effectiveSalePrice = item.salePrice > 0 && item.salePrice < item.regularPrice 
+                          ? item.salePrice 
+                          : (hasDiscountLabel ? Math.round(item.regularPrice * (1 - discountVal / 100)) : item.regularPrice);
+                        const isDiscounted = effectiveSalePrice < item.regularPrice;
+
+                        return (
+                          <tr key={item.id} className="group hover:bg-gray-50/50 transition-colors">
+                            <td className="py-6 px-6">
+                              <div className="flex items-center gap-4">
+                                <button 
+                                   onClick={() => removeItem(item.id)}
+                                   className="text-gray-300 hover:text-primary-light0 transition-colors cursor-pointer"
+                                >
+                                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                                <img src={item.image} alt={item.name} className="w-20 h-20 object-contain border border-gray-100 rounded-lg bg-white" />
+                                <Link href={`/product/${item.id}`} className="text-sm font-bold text-[#111] leading-tight max-w-[250px] hover:text-[var(--color-primary)] transition-colors">{item.name}</Link>
+                              </div>
+                            </td>
+                            <td className="py-6 px-4">
+                              <div className="flex items-center border border-gray-200 rounded-lg w-fit bg-white h-[40px]">
+                                <button onClick={() => updateQuantity(item.id, -1)} className="w-8 h-full flex items-center justify-center text-gray-400 hover:text-[var(--color-primary)] cursor-pointer active:scale-90">-</button>
+                                <span className="w-8 text-center font-bold text-[#111] text-xs">{item.quantity}</span>
+                                <button onClick={() => updateQuantity(item.id, 1)} className="w-8 h-full flex items-center justify-center text-gray-400 hover:text-[var(--color-primary)] cursor-pointer active:scale-90">+</button>
+                              </div>
+                            </td>
+                            <td className="py-6 px-4 text-right">
+                               <div className="flex items-center gap-2 justify-end">
+                                  {isDiscounted ? (
+                                    <>
+                                      <span className="text-[12px] text-gray-300 line-through font-medium">৳ {item.regularPrice * item.quantity}</span>
+                                      <span className="text-sm font-black text-[var(--color-primary)]">৳ {effectiveSalePrice * item.quantity}</span>
+                                    </>
+                                  ) : (
+                                    <span className="text-sm font-black text-[var(--color-primary)]">৳ {item.regularPrice * item.quantity}</span>
+                                  )}
+                               </div>
+                            </td>
+                          </tr>
+                        );
+                    })}
                     {cartItems.length === 0 && (
                         <tr>
-                            <td colSpan="4" className="py-20 text-center">
+                            <td colSpan="3" className="py-20 text-center">
                                 <p className="text-gray-400 font-bold mb-4">Your cart is empty!</p>
                                 <Link href="/shop" className="inline-block py-3 px-8 bg-[var(--color-primary)] text-white font-black uppercase text-xs rounded-lg">Return To Shop</Link>
                             </td>
@@ -105,8 +154,20 @@ const Cart = () => {
               
               <div className="p-6 bg-gray-50/30 flex flex-col md:flex-row justify-between gap-4">
                 <div className="flex gap-2">
-                  <input type="text" placeholder="Coupon code" className="h-[46px] px-6 border border-gray-200 rounded-lg bg-white outline-none focus:border-[var(--color-primary)]/30 w-full md:w-[240px] text-sm" />
-                  <button className="h-[46px] px-8 bg-[var(--color-primary)] text-white font-black uppercase text-xs rounded-lg hover:bg-[#e64462] transition-colors cursor-pointer active:scale-95 whitespace-nowrap">Apply Coupon</button>
+                  <input 
+                    type="text" 
+                    placeholder="Coupon code" 
+                    className="h-[46px] px-6 border border-gray-200 rounded-lg bg-white outline-none focus:border-[var(--color-primary)]/30 w-full md:w-[240px] text-sm uppercase font-bold tracking-widest" 
+                    value={couponInput}
+                    onChange={(e) => setCouponInput(e.target.value)}
+                  />
+                  <button 
+                    onClick={handleApplyCoupon}
+                    disabled={verifying || !couponInput}
+                    className="h-[46px] px-8 bg-[var(--color-primary)] text-white font-black uppercase text-xs rounded-lg hover:bg-[#e64462] transition-colors cursor-pointer active:scale-95 whitespace-nowrap disabled:bg-gray-300"
+                  >
+                    {verifying ? 'Applying...' : 'Apply Coupon'}
+                  </button>
                 </div>
               </div>
             </div>
@@ -121,47 +182,37 @@ const Cart = () => {
                <div className="space-y-6">
                  <div className="flex justify-between items-center text-sm">
                    <span className="font-bold text-gray-500 uppercase text-[11px]">Subtotal</span>
-                   <span className="font-black text-[#111]">৳ {calculateSubtotal()}</span>
+                   <span className="font-black text-[#111]">৳ {mounted ? getCartSubtotal() : 0}</span>
                  </div>
+                 {mounted && getCartDiscount() > 0 && (
+                   <div className="flex justify-between items-center text-sm">
+                     <span className="font-bold text-gray-500 uppercase text-[11px]">Product Discount</span>
+                     <span className="font-black text-green-500">- ৳ {getCartDiscount()}</span>
+                   </div>
+                 )}
+                 {mounted && appliedCoupon && (
+                   <div className="flex justify-between items-center text-sm">
+                     <span className="font-bold text-green-600 uppercase text-[11px]">Promo Discount ({appliedCoupon.code})</span>
+                     <div className="flex items-center gap-2">
+                        <span className="font-black text-green-600">- ৳ {getCouponDiscount()}</span>
+                        <button onClick={clearAppliedCoupon} className="text-[10px] text-primary font-black uppercase hover:underline cursor-pointer">Remove</button>
+                     </div>
+                   </div>
+                 )}
                  <div className="pt-6 border-t border-gray-100">
-                    <div className="flex justify-between items-start mb-4">
-                       <span className="font-bold text-gray-500 uppercase text-[11px] pt-1">Shipment</span>
-                       <div className="text-right flex flex-col items-end gap-2">
-                          <p className="text-[12px] text-gray-400 leading-relaxed max-w-[180px]">Enter your address to view shipping options.</p>
-                          <button className="text-[var(--color-primary)] font-black text-[11px] uppercase hover:underline underline-offset-4 cursor-pointer">Calculate shipping</button>
-                       </div>
+                    <div className="flex justify-between items-center">
+                       <span className="font-bold text-gray-500 uppercase text-[11px]">Shipment</span>
+                       <span className="font-bold text-gray-600 text-sm">Free shipping</span>
                     </div>
                  </div>
                  <div className="pt-6 border-t border-gray-100 flex justify-between items-center">
                     <span className="font-black text-[#111] uppercase text-sm">Total</span>
-                    <span className="text-2xl font-black text-[var(--color-primary)]">৳ {calculateSubtotal()}</span>
+                    <span className="text-2xl font-black text-[var(--color-primary)]">৳ {mounted ? getCartTotal() : 0}</span>
                  </div>
                  <Link href="/checkout" className="w-full h-[56px] bg-[var(--color-primary)] text-white flex items-center justify-center font-black uppercase rounded-xl text-sm shadow-xl shadow-[var(--color-primary)]/20 hover:bg-[#e64462] transition-all active:scale-[0.98] cursor-pointer mt-4">Proceed To Checkout</Link>
                </div>
             </div>
 
-            {/* Shipping & Delivery FAQ */}
-            <div className="bg-white rounded-xl shadow-sm border border-black/5 p-8">
-                <h4 className="text-lg font-black text-[#111] uppercase mb-6">Shipping & Delivery</h4>
-                <div className="space-y-4">
-                    {deliveryFaqs.map((faq, i) => (
-                        <div key={i} className="border border-gray-50 rounded-lg overflow-hidden">
-                            <button 
-                                onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                                className="w-full flex items-center justify-between p-4 text-left font-bold text-[13px] text-[#111] hover:bg-gray-50 transition-colors cursor-pointer"
-                            >
-                                <span className={openFaq === i ? 'text-[var(--color-primary)]' : ''}>{faq.question}</span>
-                                <svg className={`w-4 h-4 transition-transform duration-300 ${openFaq === i ? 'rotate-180 text-[var(--color-primary)]' : 'text-gray-300'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M19 9l-7 7-7-7"/></svg>
-                            </button>
-                            {openFaq === i && (
-                                <div className="p-4 pt-0 text-[12px] text-gray-500 leading-loose border-t border-gray-50 bg-gray-50/20 font-medium">
-                                    {faq.answer}
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            </div>
 
           </div>
 

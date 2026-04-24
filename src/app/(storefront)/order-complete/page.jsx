@@ -1,7 +1,56 @@
-import React from 'react';
-import Link from 'next/link';
+"use client";
 
-const OrderComplete = () => {
+import React, { useState, useEffect, Suspense } from 'react';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import toast from 'react-hot-toast';
+
+const OrderCompleteContent = () => {
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get('id');
+  const [order, setOrder] = useState(null);
+  const [settings, setSettings] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (orderId) {
+      // Fetch Order
+      fetch(`/api/orders/${orderId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) toast.error(data.error);
+          else setOrder(data);
+        });
+
+      // Fetch Settings
+      fetch('/api/settings')
+        .then(res => res.json())
+        .then(data => {
+            if (!data.error) setSettings(data);
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, [orderId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center font-black uppercase tracking-widest text-gray-400 animate-pulse">
+        Fetching Order Details...
+      </div>
+    );
+  }
+
+  if (!order) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <h1 className="text-2xl font-black text-[#111] mb-4">ORDER NOT FOUND</h1>
+        <Link href="/" className="px-8 py-3 bg-primary text-white font-bold rounded-xl">Back to Home</Link>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-[#f2f2f2] min-h-screen py-10 font-roboto">
       <div className="max-w-[1320px] mx-auto px-4">
@@ -23,17 +72,27 @@ const OrderComplete = () => {
             {/* Info Box (Bengali) */}
             <div className="bg-white border-2 border-dashed border-[var(--color-primary)]/20 p-8 rounded-2xl text-center shadow-sm">
                 <div className="space-y-4 text-gray-700 leading-loose">
-                    <p className="text-lg font-black text-[#111]">আপনার অর্ডারটি আগামী ২৪ ঘন্টার মধ্যে আমাদের কাস্টমার কেয়ার প্রতিনিধি ফোন দিয়ে কনফার্ম করবেন <br/> (শুক্রবার ব্যতীত)।</p>
-                    <p className="font-bold">ফোন কনফার্ম হওয়ার ২৪-৪৮ ঘণ্টার মধ্যে আপনি আপনার অর্ডারটি হাতে পেয়ে যাবেন।</p>
-                    <p className="text-[var(--color-primary)] font-black text-sm italic py-2">বিঃদ্রঃ কোনো কারনে ফোন কল না পেলে, আপনার অর্ডারটি হোল্ড অবস্থায় থাকবে। অনুগ্রহ করে আমাদের কাস্টমার কেয়ারের কলটি রিসিভ করবেন। কাস্টমার কেয়ার নাম্বারঃ 09613660321</p>
-                    <p className="font-black text-xs uppercase tracking-widest text-gray-400 pt-2">ধন্যবাদ kcbazar এর সাথে থাকার জন্য!</p>
+                    <p className="text-lg font-black text-[#111]">
+                        {settings?.orderConfirmMsg1 || "আপনার অর্ডারটি আগামী ২৪ ঘন্টার মধ্যে আমাদের কাস্টমার কেয়ার প্রতিনিধি ফোন দিয়ে কনফার্ম করবেন (শুক্রবার ব্যতীত)।"}
+                    </p>
+                    <p className="font-bold">
+                        {settings?.orderConfirmMsg2 || "ফোন কনফার্ম হওয়ার ২৪-৪৮ ঘণ্টার মধ্যে আপনি আপনার অর্ডারটি হাতে পেয়ে যাবেন।"}
+                    </p>
+                    <p className="text-[var(--color-primary)] font-black text-sm italic py-2">
+                        {settings?.orderConfirmMsg3 || "বিঃদ্রঃ কোনো কারনে ফোন কল না পেলে, আপনার অর্ডারটি হোল্ড অবস্থায় থাকবে। অনুগ্রহ করে আমাদের কাস্টমার কেয়ারের কলটি রিসিভ করবেন।"}
+                        <br />
+                        কাস্টমার কেয়ার নাম্বারঃ <span className="not-italic">{settings?.orderConfirmHotline || "09613660321"}</span>
+                    </p>
+                    <p className="font-black text-xs uppercase tracking-widest text-gray-400 pt-2">
+                        {settings?.orderConfirmFooter || "ধন্যবাদ kcbazar এর সাথে থাকার জন্য!"}
+                    </p>
                 </div>
             </div>
 
             {/* Success Message Banner */}
             <div className="bg-[#E6F9F3] border border-[#BFF0E1] text-[#0D9488] p-6 rounded-xl text-center font-black text-lg py-10 flex flex-col items-center gap-4 shadow-sm">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm">
-                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                    <svg className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                         <path d="M5 13l4 4L19 7"/>
                     </svg>
                 </div>
@@ -43,10 +102,10 @@ const OrderComplete = () => {
             {/* Order Summary Stats */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 bg-white p-8 rounded-2xl shadow-sm border border-black/5">
                 {[
-                  { label: "Order number:", value: "53848" },
-                  { label: "Date:", value: "April 8, 2026" },
-                  { label: "Total:", value: "৳ 1,200" },
-                  { label: "Payment method:", value: "Cash on delivery" },
+                  { label: "Order number:", value: order.orderNumber },
+                  { label: "Date:", value: new Date(order.createdAt).toLocaleDateString() },
+                  { label: "Total:", value: `৳ ${order.totalAmount}` },
+                  { label: "Payment method:", value: order.paymentMethod },
                 ].map((stat, i) => (
                   <div key={i} className="flex flex-col gap-1 border-r border-gray-100 last:border-0 px-4">
                     <span className="text-[10px] uppercase font-black tracking-widest text-gray-400">{stat.label}</span>
@@ -54,8 +113,6 @@ const OrderComplete = () => {
                   </div>
                 ))}
             </div>
-
-            <p className="text-center font-bold text-gray-400 text-sm mt-4 italic">Pay with cash upon delivery.</p>
 
             {/* Order Details Table */}
             <div className="bg-white rounded-2xl shadow-sm border border-black/5 overflow-hidden">
@@ -71,38 +128,28 @@ const OrderComplete = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
-                            {[
-                                { id: 1, name: "Missha Soft Finish Sun Milk SPF50+ PA+++ 70 ml", qty: 1, price: "1,200" },
-                            ].map((item, i) => (
+                            {order.orderItems?.map((item, i) => (
                                 <tr key={i}>
                                     <td className="py-6 pr-4">
-                                        <Link href={`/product/${item.id}`} className="text-sm font-bold text-gray-600 hover:text-[var(--color-primary)] transition-colors">{item.name}</Link>
-                                        <span className="text-sm font-black text-[#111] ml-2">× {item.qty}</span>
+                                        <Link href={`/product/${item.productId}`} className="text-sm font-bold text-gray-600 hover:text-[var(--color-primary)] transition-colors">{item.productName}</Link>
+                                        <span className="text-sm font-black text-[#111] ml-2">× {item.quantity}</span>
                                     </td>
-                                    <td className="py-6 text-right font-black text-[var(--color-primary)] text-sm">৳ {item.price}</td>
+                                    <td className="py-6 text-right font-black text-[var(--color-primary)] text-sm">৳ {item.price * item.quantity}</td>
                                 </tr>
                             ))}
                         </tbody>
                         <tfoot className="divide-y divide-gray-50 bg-gray-50/20">
                             <tr>
                                 <td className="py-4 text-sm font-bold text-gray-500 uppercase tracking-widest text-[11px] px-4">Subtotal:</td>
-                                <td className="py-4 text-right font-black text-[#111] text-sm pr-4">৳ 1,200</td>
+                                <td className="py-4 text-right font-black text-[#111] text-sm pr-4">৳ {order.subtotal}</td>
                             </tr>
                             <tr>
                                 <td className="py-4 text-sm font-bold text-gray-500 uppercase tracking-widest text-[11px] px-4">Shipping:</td>
-                                <td className="py-4 text-right font-bold text-gray-600 text-[13px] pr-4">Free shipping</td>
+                                <td className="py-4 text-right font-bold text-gray-600 text-[13px] pr-4">{order.shippingFee > 0 ? `৳ ${order.shippingFee}` : 'Free shipping'}</td>
                             </tr>
                             <tr>
                                 <td className="py-4 text-sm font-black text-[#111] uppercase tracking-widest px-4">Total:</td>
-                                <td className="py-4 text-right font-black text-[var(--color-primary)] text-lg pr-4">৳ 1,200</td>
-                            </tr>
-                            <tr>
-                                <td className="py-4 text-sm font-bold text-gray-500 uppercase tracking-widest text-[11px] px-4">Payment method:</td>
-                                <td className="py-4 text-right font-bold text-gray-600 text-[13px] pr-4">Cash on delivery</td>
-                            </tr>
-                            <tr>
-                                <td className="py-4 text-sm font-bold text-gray-500 uppercase tracking-widest text-[11px] px-4">Courier (কুরিয়ার):</td>
-                                <td className="py-4 text-right font-bold text-gray-600 text-[13px] pr-4">Steadfast</td>
+                                <td className="py-4 text-right font-black text-[var(--color-primary)] text-lg pr-4">৳ {order.totalAmount}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -114,22 +161,11 @@ const OrderComplete = () => {
                 <div className="bg-white p-8 rounded-2xl shadow-sm border border-black/5">
                     <h4 className="text-lg font-black text-[#111] uppercase tracking-tighter mb-6 border-b border-gray-50 pb-2">Billing address</h4>
                     <address className="not-italic space-y-2 text-sm text-gray-500 font-bold leading-relaxed">
-                        <p className="text-[#111] font-black uppercase text-[12px] tracking-widest">amik</p>
-                        <p>Model town</p>
-                        <p>puran para</p>
-                        <p>Bandarban</p>
-                        <p>01427654966</p>
-                        <p className="text-[var(--color-primary)] lower-case">randome72@gmail.com</p>
-                    </address>
-                </div>
-                <div className="bg-white p-8 rounded-2xl shadow-sm border border-black/5">
-                    <h4 className="text-lg font-black text-[#111] uppercase tracking-tighter mb-6 border-b border-gray-50 pb-2">Shipping address</h4>
-                    <address className="not-italic space-y-2 text-sm text-gray-500 font-bold leading-relaxed">
-                        <p className="text-[#111] font-black uppercase text-[12px] tracking-widest">amik</p>
-                        <p>Model town</p>
-                        <p>puran para</p>
-                        <p>Bandarban</p>
-                        <p>01427654966</p>
+                        <p className="text-[#111] font-black uppercase text-[12px] tracking-widest">{order.customerName}</p>
+                        <p>{order.customerAddress}</p>
+                        <p>{order.customerCity}</p>
+                        <p>{order.customerPhone}</p>
+                        {order.customerEmail && <p className="text-[var(--color-primary)] lower-case">{order.customerEmail}</p>}
                     </address>
                 </div>
             </div>
@@ -143,6 +179,14 @@ const OrderComplete = () => {
 
       </div>
     </div>
+  );
+};
+
+const OrderComplete = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OrderCompleteContent />
+    </Suspense>
   );
 };
 

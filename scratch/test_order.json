@@ -1,0 +1,21 @@
+{
+  "name": "E2E Test User",
+  "email": "e2e_final@test.com",
+  "mobile": "01700000000",
+  "address": "Test Address",
+  "district": "Bandarban",
+  "thana": "Test Thana",
+  "password": "password123",
+  "items": [
+    {
+      "id": "cmobptt7u0000sx9eokghjgvy",
+      "name": "E2E Test Product",
+      "quantity": 1,
+      "salePrice": 100,
+      "regularPrice": 120
+    }
+  ],
+  "total": 100,
+  "subtotal": 100,
+  "shippingFee": 0
+}

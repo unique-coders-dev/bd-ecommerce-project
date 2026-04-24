@@ -4,6 +4,8 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
+const DEFAULT_LOGO = "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png";
+
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -14,12 +16,16 @@ function ResetPasswordForm() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [siteSettings, setSiteSettings] = useState(null);
 
   useEffect(() => {
     if (!token) {
       setError("Invalid or missing reset token.");
     }
+    fetch('/api/admin/settings').then(r => r.json()).then(d => setSiteSettings(d)).catch(() => {});
   }, [token]);
+
+  const logoUrl = siteSettings?.logoUrl || DEFAULT_LOGO;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,8 +64,8 @@ function ResetPasswordForm() {
       <div className="text-center">
           <Link href="/" className="inline-block transition-transform hover:scale-105 active:scale-95">
               <img
-                  src="https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png"
-                  alt="KC Bazar Logo"
+                  src={logoUrl}
+                  alt={`${siteSettings?.siteName || 'KC Bazar'} Logo`}
                   className="h-10 w-auto mx-auto mb-6"
               />
           </Link>

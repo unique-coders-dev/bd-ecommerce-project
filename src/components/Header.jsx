@@ -2,14 +2,25 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import MenuSidebar from './MenuSidebar';
+import { useCartStore } from '@/store/cartStore';
 
 const Header = ({ initialSettings }) => {
   const [cartOpen, setCartOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const cartItems = useCartStore((state) => state.cartItems);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const getCartTotal = useCartStore((state) => state.getCartTotal);
+
+  useEffect(() => setMounted(true), []);
   const [settings, setSettings] = useState(initialSettings);
   const [navLinks, setNavLinks] = useState([]);
   const [activeMenu, setActiveMenu] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     if (!initialSettings) {
@@ -32,7 +43,7 @@ const Header = ({ initialSettings }) => {
   }, []);
 
   const getAnnouncements = () => {
-    if (!settings?.announcements) return [settings?.marqueeText || 'Welcome to KC Bazar! Discovery our premium Korean collection.'];
+    if (!settings?.announcements) return [settings?.marqueeText || `Welcome to ${settings?.siteName || 'our store'}! Discover our premium collection.`];
     try {
       const parsed = typeof settings.announcements === 'string' ? JSON.parse(settings.announcements) : settings.announcements;
       return Array.isArray(parsed) && parsed.length > 0 ? parsed : [settings.marqueeText];
@@ -43,8 +54,15 @@ const Header = ({ initialSettings }) => {
 
   const announcements = getAnnouncements();
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
-    <header>
+    <header className="sticky top-0 z-[1000] w-full shadow-sm">
       {/* ── Announcement Marquee ── */}
       <div className="bg-primary-light border-b border-primary/10 h-9 overflow-hidden flex items-center group">
         <div className="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
@@ -71,7 +89,7 @@ const Header = ({ initialSettings }) => {
               <Link href="/">
                 <img
                   src={settings?.logoUrl || "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png"}
-                  alt="KC Bazar Logo"
+                  alt={`${settings?.siteName || 'Store'} Logo`}
                   className="w-full h-auto max-h-[50px] object-contain"
                 />
               </Link>
@@ -79,18 +97,20 @@ const Header = ({ initialSettings }) => {
           </div>
 
           {/* Search Box (Middle) */}
-          <div className="flex-1 max-w-[580px] relative hidden md:block text-base">
+          <form onSubmit={handleSearch} className="flex-1 max-w-[580px] relative hidden md:block text-base">
             <input 
               type="text" 
               placeholder="পণ্য অনুসন্ধান করুন..." 
               className="w-full h-11 border-[1.5px] border-[#E5E7EB] rounded-[25px] px-5 pr-12 text-sm outline-none focus:border-primary transition-colors"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button className="absolute right-0 top-0 w-12 h-11 bg-primary border-none rounded-r-[25px] text-white flex items-center justify-center hover:bg-primary-soft hover:text-primary transition-all cursor-pointer" aria-label="Search">
+            <button type="submit" className="absolute right-0 top-0 w-12 h-11 bg-primary border-none rounded-r-[25px] text-white flex items-center justify-center hover:bg-primary-soft hover:text-primary transition-all cursor-pointer" aria-label="Search">
               <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                 <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
               </svg>
             </button>
-          </div>
+          </form>
 
           {/* Info & Icons Box (Right) */}
           <div className="flex items-center gap-5">
@@ -117,7 +137,9 @@ const Header = ({ initialSettings }) => {
                   <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-                <span className="absolute -top-1.5 -right-1 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">1</span>
+                <span className="absolute -top-1.5 -right-1 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                  {mounted ? cartItems.reduce((acc, item) => acc + item.quantity, 0) : 0}
+                </span>
               </button>
               {/* Account */}
               <Link href="/my-account" className="w-[38px] h-[38px] rounded-full border border-[#E5E7EB] bg-transparent flex items-center justify-center text-[#111827] transition-all duration-200 hover:bg-primary-light hover:text-primary" aria-label="My Account">
@@ -132,7 +154,7 @@ const Header = ({ initialSettings }) => {
       </div>
 
       {/* ── Navigation ── */}
-      <div className="bg-white border-b border-[#E5E7EB] sticky top-0 z-[1000]">
+      <div className="bg-white border-b border-[#E5E7EB]">
         <div className="max-w-[1320px] mx-auto px-4 h-[50px] flex items-center gap-4">
           {/* Hamburger Menu */}
           <button 
@@ -167,23 +189,28 @@ const Header = ({ initialSettings }) => {
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-6 space-y-6">
-               <div className="flex gap-4 group">
-                  <div className="w-20 h-20 rounded-xl border border-gray-100 p-2 flex-shrink-0 bg-gray-50/30">
-                     <img src="https://kcbazar.com/wp-content/uploads/2023/12/Nature-Skin-Jeju-Green-Tea-CICA-Hydrating-Facial-Foam-152-ml-300x300.jpg" alt="product" className="w-full h-full object-contain" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                     <Link href="/product/1" onClick={() => setCartOpen(false)} className="text-sm font-black text-[#111] leading-tight block hover:text-primary transition-colors mb-1 truncate">Nature Skin Jeju Green Tea CICA Hydrating Facial Foam 152 ml</Link>
-                     <div className="flex items-center justify-between text-base">
-                        <span className="text-[13px] font-bold text-gray-400">1 × <span className="text-primary">৳ 800</span></span>
-                        <button className="text-gray-300 hover:text-primary-light0 cursor-pointer transition-colors"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M6 18L18 6M6 6l12 12"/></svg></button>
-                     </div>
-                  </div>
-               </div>
+               {mounted && cartItems.length === 0 && (
+                 <p className="text-center text-gray-400 font-bold mt-10">Your cart is empty!</p>
+               )}
+               {mounted && cartItems.map((item) => (
+                 <div key={item.id} className="flex gap-4 group">
+                    <div className="w-20 h-20 rounded-xl border border-gray-100 p-2 flex-shrink-0 bg-gray-50/30">
+                       <img src={item.image} alt={item.name} className="w-full h-full object-contain" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                       <Link href={`/product/${item.id}`} onClick={() => setCartOpen(false)} className="text-sm font-black text-[#111] leading-tight block hover:text-primary transition-colors mb-1 truncate">{item.name}</Link>
+                       <div className="flex items-center justify-between text-base">
+                          <span className="text-[13px] font-bold text-gray-400">{item.quantity} × <span className="text-primary">৳ {item.salePrice || item.regularPrice}</span></span>
+                          <button onClick={() => removeFromCart(item.id)} className="text-gray-300 hover:text-primary-light0 cursor-pointer transition-colors"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M6 18L18 6M6 6l12 12"/></svg></button>
+                       </div>
+                    </div>
+                 </div>
+               ))}
             </div>
             <div className="p-6 bg-white border-t border-gray-100 space-y-3.5 shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
                <div className="flex justify-between items-center mb-4">
                   <span className="text-sm font-black text-[#111] uppercase tracking-widest text-base">Subtotal:</span>
-                  <span className="text-xl font-black text-primary">৳ 800</span>
+                  <span className="text-xl font-black text-primary">৳ {mounted ? getCartTotal() : 0}</span>
                </div>
                <Link href="/checkout" onClick={() => setCartOpen(false)} className="w-full h-14 bg-primary text-white flex items-center justify-center font-black uppercase tracking-[2px] rounded-xl text-sm shadow-xl shadow-primary/20 hover:brightness-110 transition-all cursor-pointer">Checkout</Link>
                <Link href="/cart" onClick={() => setCartOpen(false)} className="w-full h-14 bg-[#111] text-white flex items-center justify-center font-black uppercase tracking-[2px] rounded-xl text-sm hover:bg-black transition-all cursor-pointer">View Cart</Link>

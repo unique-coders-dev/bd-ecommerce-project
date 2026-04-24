@@ -32,7 +32,10 @@ export async function GET(request) {
     const [products, total] = await Promise.all([
       prisma.product.findMany({
         where,
-        orderBy: { [sortKey]: sortDir },
+        orderBy: [
+          { isFeatured: 'desc' },
+          { [sortKey]: sortDir }
+        ],
         skip,
         take: limit,
       }),
@@ -49,10 +52,17 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { name, description, brand, category, regularPrice, salePrice, discount, stock, sku, image, images, isActive, isClearance } = body;
+    const { name, description, brand, category, regularPrice, salePrice, discount, stock, sku, image, images, isActive, isClearance, isFeatured } = body;
 
     if (!name || !image || regularPrice === undefined) {
       return NextResponse.json({ error: 'Name, image, and regular price are required' }, { status: 400 });
+    }
+
+    if (isFeatured) {
+      await prisma.product.updateMany({
+        where: { isFeatured: true },
+        data: { isFeatured: false }
+      });
     }
 
     const product = await prisma.product.create({
@@ -74,6 +84,7 @@ export async function POST(request) {
         images: images ? JSON.stringify(images) : null,
         isActive: isActive !== undefined ? isActive : true,
         isClearance: isClearance !== undefined ? isClearance : false,
+        isFeatured: isFeatured !== undefined ? isFeatured : false,
       }
     });
 
@@ -87,9 +98,19 @@ export async function POST(request) {
 export async function PUT(request) {
   try {
     const body = await request.json();
-    const { id, name, description, brand, category, regularPrice, salePrice, discount, stock, sku, image, images, isActive, isClearance } = body;
+    const { id, name, description, brand, category, regularPrice, salePrice, discount, stock, sku, image, images, isActive, isClearance, isFeatured } = body;
 
     if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+
+    if (isFeatured) {
+      await prisma.product.updateMany({
+        where: { 
+          isFeatured: true,
+          NOT: { id }
+        },
+        data: { isFeatured: false }
+      });
+    }
 
     const product = await prisma.product.update({
       where: { id },
@@ -111,6 +132,7 @@ export async function PUT(request) {
         images: images ? JSON.stringify(images) : null,
         isActive,
         isClearance,
+        isFeatured: isFeatured !== undefined ? isFeatured : false,
       }
     });
 
