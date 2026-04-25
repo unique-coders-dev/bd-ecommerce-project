@@ -22,8 +22,8 @@ export async function generateMetadata() {
   }
 
   return {
-    title: settings?.siteTitle || "KC Bazar | Original Korean Skincare & Cosmetics in Bangladesh",
-    description: settings?.siteDescription || "Discover 100% original Korean skincare and cosmetics at KC Bazar.",
+    title: settings?.siteTitle || "Mailbon | Original Korean Skincare & Cosmetics in Bangladesh",
+    description: settings?.siteDescription || "Discover 100% original Korean skincare and cosmetics at Mailbon.",
     keywords: settings?.siteKeywords || "ecommerce, beauty, wellness, skins, cosmetics",
     icons: {
       icon: settings?.faviconUrl || "/favicon.ico",

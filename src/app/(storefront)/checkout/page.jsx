@@ -84,7 +84,7 @@ const Checkout = () => {
         const res = await fetch('/api/coupons/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: couponCode, cartTotal: getCartTotal() })
+            body: JSON.stringify({ code: couponCode, cartTotal: Math.round(getCartTotal()) })
         });
         const data = await res.json();
         if (res.ok) {
@@ -124,9 +124,9 @@ const Checkout = () => {
         const orderData = {
             ...formData,
             items: cartItems,
-            subtotal: getCartSubtotal(),
-            total: getCartTotal(),
-            discount: getCouponDiscount(),
+            subtotal: Math.round(getCartSubtotal()),
+            total: Math.round(getCartTotal()),
+            discount: Math.round(getCouponDiscount()),
             couponId: appliedCoupon?.id,
             shippingFee: 0,
             paymentMethod: 'COD'
@@ -401,12 +401,12 @@ const Checkout = () => {
 
                      <div className="flex justify-between items-center text-sm">
                         <span className="font-bold text-gray-400 uppercase tracking-widest text-[11px]">Subtotal</span>
-                        <span className="font-black text-[#111]">৳ {mounted ? getCartSubtotal() : 0}</span>
+                        <span className="font-black text-[#111]">৳ {mounted ? Math.round(getCartSubtotal()) : 0}</span>
                      </div>
                      {appliedCoupon && (
                         <div className="flex justify-between items-center text-sm">
                            <span className="font-bold text-green-600 uppercase tracking-widest text-[11px]">Promo Discount</span>
-                           <span className="font-black text-green-600">- ৳ {getCouponDiscount()}</span>
+                           <span className="font-black text-green-600">- ৳ {Math.round(getCouponDiscount())}</span>
                         </div>
                      )}
                      <div className="flex justify-between items-center text-sm">
@@ -415,7 +415,7 @@ const Checkout = () => {
                      </div>
                      <div className="flex justify-between items-center pt-6 border-t border-gray-100">
                         <span className="font-black text-[#111] uppercase tracking-widest text-sm">Total</span>
-                        <span className="text-2xl font-black text-[var(--color-primary)]">৳ {mounted ? getCartTotal() : 0}</span>
+                        <span className="text-2xl font-black text-[var(--color-primary)]">৳ {mounted ? Math.round(getCartTotal()) : 0}</span>
                      </div>
                   </div>
 

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 
-const DEFAULT_LOGO = "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png";
+const DEFAULT_LOGO = "";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -45,18 +45,14 @@ export default function LoginPage() {
   };
 
   const logoUrl = siteSettings?.logoUrl || DEFAULT_LOGO;
-  const siteName = siteSettings?.siteName || "KC Bazar";
+  const siteName = siteSettings?.siteName || "Mailbon";
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[#f8f9fa] py-12 px-4 sm:px-6 lg:px-8 font-['Inter',sans-serif]">
       <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-[30px] shadow-2xl shadow-gray-200/50 border border-gray-100 animate-fadeIn">
         <div className="text-center">
             <Link href="/" className="inline-block group transition-transform hover:scale-105 active:scale-95">
-                <img
-                    src={logoUrl}
-                    alt={`${siteName} Logo`}
-                    className="h-12 w-auto mx-auto mb-8"
-                />
+                {logoUrl ? (<img src={logoUrl} alt="Logo" className="w-full h-auto max-h-[50px] object-contain" />) : (<div className="w-16 h-16 mx-auto bg-primary text-white font-black flex items-center justify-center rounded-2xl text-4xl shadow-sm">M</div>)}
             </Link>
             <h2 className="text-3xl font-black tracking-tight text-[#111] uppercase italic">
                 Welcome Back

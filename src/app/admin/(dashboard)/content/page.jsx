@@ -661,7 +661,7 @@ const BannerPosters = () => {
                                     ref={fileInputRef} 
                                     className="hidden" 
                                     onChange={(e) => handleImageSelect(e, 'imageUrl')} 
-                                    accept="image/*"
+                                    accept=".png,.jpg,.jpeg,.gif,.ico"
                                 />
                                 <div 
                                     onClick={() => fileInputRef.current?.click()}
@@ -695,7 +695,7 @@ const BannerPosters = () => {
                                         ref={mobileFileInputRef} 
                                         className="hidden" 
                                         onChange={(e) => handleImageSelect(e, 'mobileImageUrl')} 
-                                        accept="image/*"
+                                        accept=".png,.jpg,.jpeg,.gif,.ico"
                                     />
                                     <div 
                                         onClick={() => mobileFileInputRef.current?.click()}

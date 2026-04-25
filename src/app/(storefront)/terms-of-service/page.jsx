@@ -19,17 +19,17 @@ const TermsOfService = () => {
 
             <section className="space-y-4">
                 <h2 className="text-xl font-black text-[#111] uppercase">2. Use License</h2>
-                <p>Permission is granted to temporarily download one copy of the materials (information or software) on KC Bazar's website for personal, non-commercial transitory viewing only.</p>
+                <p>Permission is granted to temporarily download one copy of the materials (information or software) on Mailbon's website for personal, non-commercial transitory viewing only.</p>
             </section>
 
             <section className="space-y-4">
                 <h2 className="text-xl font-black text-[#111] uppercase">3. Disclaimer</h2>
-                <p>The materials on KC Bazar's website are provided "as is". KC Bazar makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability.</p>
+                <p>The materials on Mailbon's website are provided "as is". Mailbon makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability.</p>
             </section>
 
             <section className="space-y-4">
                 <h2 className="text-xl font-black text-[#111] uppercase">4. Limitations</h2>
-                <p>In no event shall KC Bazar or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit) arising out of the use or inability to use the materials on KC Bazar's Internet site.</p>
+                <p>In no event shall Mailbon or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit) arising out of the use or inability to use the materials on Mailbon's Internet site.</p>
             </section>
         </div>
       </div>

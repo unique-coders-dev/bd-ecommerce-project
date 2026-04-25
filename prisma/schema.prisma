@@ -21,6 +21,8 @@ model User {
   role             String    @default("customer")
   status           String    @default("active")
   permissions      String    @default("")
+  adminOtp         String?
+  adminOtpExpiry   DateTime?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
   resetToken       String?   @unique

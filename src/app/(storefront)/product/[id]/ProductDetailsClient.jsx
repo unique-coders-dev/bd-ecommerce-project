@@ -433,7 +433,7 @@ const ProductDetailsClient = ({ initialProduct, relatedProducts }) => {
                   { title: "SteadFast Courier", desc: "Reliable nationwide delivery to your doorstep", time: "2-3 Days", logo: "https://kcbazar.com/wp-content/uploads/2025/02/steadfast-logo.svg" },
                   { title: "Pathao Personal", desc: "On-demand hyper-fast metropolitan delivery", time: "1-2 Days", logo: "https://kcbazar.com/wp-content/uploads/2022/12/pathao-courier-48x24.jpg" },
                   { title: "Sundarban Express", desc: "Classic logistics for remote township delivery", time: "3-5 Days", logo: "https://kcbazar.com/wp-content/uploads/2022/12/scsLogo20-48x48.jpg" },
-                  { title: "KC Home Delivery", desc: "Our premium white-glove delivery service", time: "Select Areas", logo: settings?.logoUrl || "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png" }
+                  { title: "KC Home Delivery", desc: "Our premium white-glove delivery service", time: "Select Areas", logo: settings?.logoUrl || "" }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-5 p-6 border border-gray-100 rounded-2xl items-center hover:shadow-xl hover:border-[var(--color-primary)]/10 transition-all bg-white group cursor-pointer relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-primary)]/5 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-150"></div>

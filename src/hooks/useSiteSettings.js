@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-const DEFAULT_LOGO = "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png";
-const DEFAULT_SITE_NAME = "KC Bazar";
-const DEFAULT_SITE_TITLE = "KC Bazar | Premium Beauty & Wellness";
+const DEFAULT_LOGO = "";
+const DEFAULT_SITE_NAME = "Mailbon";
+const DEFAULT_SITE_TITLE = "Mailbon | Premium Beauty & Wellness";
 
 let cachedSettings = null;
 

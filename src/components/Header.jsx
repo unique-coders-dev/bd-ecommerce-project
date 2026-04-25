@@ -87,11 +87,17 @@ const Header = ({ initialSettings }) => {
             {/* Logo */}
             <div className="max-w-[160px] flex-shrink-0">
               <Link href="/">
-                <img
-                  src={settings?.logoUrl || "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png"}
-                  alt={`${settings?.siteName || 'Store'} Logo`}
-                  className="w-full h-auto max-h-[50px] object-contain"
-                />
+                {settings?.logoUrl ? (
+                  <img
+                    src={settings.logoUrl}
+                    alt={`${settings?.siteName || 'Mailbon'} Logo`}
+                    className="w-full h-auto max-h-[50px] object-contain"
+                  />
+                ) : (
+                  <div className="w-12 h-12 bg-primary text-white font-black flex items-center justify-center rounded-xl text-2xl shadow-sm">
+                    M
+                  </div>
+                )}
               </Link>
             </div>
           </div>

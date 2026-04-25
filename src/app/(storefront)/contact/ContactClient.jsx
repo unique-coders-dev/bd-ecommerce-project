@@ -120,7 +120,7 @@ const ContactClient = ({ settings }) => {
             <div className="space-y-8">
                 <div className="bg-primary rounded-[40px] p-10 text-white space-y-6">
                     <Link href="/" className="block w-32 mb-8">
-                        <img src={settings?.logoUrl || "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png"} alt="Logo" className="w-full brightness-0 invert" />
+                        {settings?.logoUrl ? (<img src={settings.logoUrl} alt="Logo" className="w-full brightness-0 invert" />) : (<div className="w-12 h-12 bg-white text-primary font-black flex items-center justify-center rounded-xl text-3xl shadow-sm">M</div>)}
                     </Link>
                     <h3 className="text-2xl font-black uppercase italic tracking-tighter">Reach Out</h3>
                     <div className="space-y-4">

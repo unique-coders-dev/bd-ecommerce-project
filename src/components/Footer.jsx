@@ -20,7 +20,7 @@ const Footer = ({ settings, categories = [] }) => {
     { label: 'FAQ', href: '/faq/' },
   ];
 
-  const logoUrl = settings?.logoUrl || "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png";
+  const logoUrl = settings?.logoUrl || "";
   const shortDescription = settings?.shortDescription || "কেসি বাজার বাংলাদেশে অরিজিনাল কোরিয়ান স্কিনকেয়ার এবং কসমেটিকস পণ্যের অন্যতম নির্ভরযোগ্য প্রতিষ্ঠান। গুণগত মান এবং বিশুদ্ধতায় আমরা আপসহীন।";
   const hotline = settings?.hotline || "09644-888889";
   const openingHours = settings?.openingHours || "শনি–বৃহস্পতি: ১০টা – ৮টা";
@@ -35,11 +35,17 @@ const Footer = ({ settings, categories = [] }) => {
         {/* Col 1: Logo + About */}
         <div>
           <Link href="/" className="block w-[160px] mb-6">
-            <img
-              src={logoUrl}
-              alt={`${settings?.siteName || 'Store'} Logo`}
-              className="w-full"
-            />
+            {logoUrl ? (
+              <img
+                src={logoUrl}
+                alt={`${settings?.siteName || 'Mailbon'} Logo`}
+                className="w-full"
+              />
+            ) : (
+              <div className="w-14 h-14 bg-[var(--primary-color)] text-white font-black flex items-center justify-center rounded-2xl text-3xl shadow-sm">
+                M
+              </div>
+            )}
           </Link>
           <p className="text-sm text-[#666] leading-relaxed mb-4">
             {shortDescription}
@@ -114,7 +120,7 @@ const Footer = ({ settings, categories = [] }) => {
       {/* Copyright */}
       <div className="border-t border-gray-100 py-6 bg-gray-50">
         <p className="text-center text-[11px] text-[#999] uppercase tracking-widest leading-relaxed px-4">
-          © {new Date().getFullYear()} {settings?.siteName || settings?.siteTitle?.split('|')[0]?.trim() || 'KC Bazar'}. All rights reserved. <span className="mx-2">|</span> Powered by {settings?.siteName || 'KC Bazar'} IT Team
+          © {new Date().getFullYear()} {settings?.siteName || settings?.siteTitle?.split('|')[0]?.trim() || 'Mailbon'}. All rights reserved. <span className="mx-2">|</span> Powered by {settings?.siteName || 'Mailbon'} IT Team
         </p>
       </div>
     </footer>

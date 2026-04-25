@@ -280,7 +280,7 @@ export default function GeneralSettings() {
                             <div className="flex-1 space-y-3">
                                 <p className="text-[11px] text-gray-500 font-medium leading-relaxed">Upload a high-quality transparent PNG or SVG logo. This will appear in header, footer, and emails.</p>
                                 <label className="inline-block cursor-pointer">
-                                    <input type="file" className="hidden" accept="image/*" onChange={handleLogoUpload} disabled={uploading} />
+                                    <input type="file" className="hidden" accept=".png,.jpg,.jpeg,.gif,.ico" onChange={handleLogoUpload} disabled={uploading} />
                                     <span className="h-10 px-6 bg-gray-100 text-gray-700 font-bold text-[10px] uppercase rounded-full flex items-center gap-2 hover:bg-gray-200 transition-all">
                                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
                                         {uploading ? "Uploading..." : "Replace Logo File"}
@@ -306,7 +306,7 @@ export default function GeneralSettings() {
                             <div className="flex-1 space-y-2">
                                 <p className="text-[9px] text-gray-500 font-medium font-mono">Recommended: 32x32px .ico or .png</p>
                                 <label className="inline-block cursor-pointer">
-                                    <input type="file" className="hidden" accept="image/*" onChange={handleFaviconUpload} disabled={uploading} />
+                                    <input type="file" className="hidden" accept=".png,.jpg,.jpeg,.gif,.ico" onChange={handleFaviconUpload} disabled={uploading} />
                                     <span className="h-8 px-4 bg-gray-100 text-gray-700 font-bold text-[9px] uppercase rounded-full flex items-center gap-2 hover:bg-gray-200 transition-all">
                                         Upload Icon
                                     </span>
@@ -322,7 +322,7 @@ export default function GeneralSettings() {
                                 type="text" 
                                 value={settings.siteName || ""}
                                 onChange={(e) => setSettings({...settings, siteName: e.target.value})}
-                                placeholder="e.g. KC Bazar"
+                                placeholder="e.g. Mailbon"
                                 className="w-full h-16 px-6 border border-gray-200 rounded-2xl bg-gray-50/30 outline-none focus:bg-white focus:border-primary transition-all font-black text-sm tracking-tighter" 
                             />
                             <p className="text-[9px] text-gray-400 font-medium italic">Global brand name used across the entire platform.</p>
@@ -377,7 +377,7 @@ export default function GeneralSettings() {
                             type="text" 
                             value={settings.siteTitle}
                             onChange={(e) => setSettings({...settings, siteTitle: e.target.value})}
-                            placeholder="e.g. KC Bazar - Premium Wellness"
+                            placeholder="e.g. Mailbon - Premium Wellness"
                             className="w-full h-14 px-6 border border-gray-100 rounded-2xl bg-gray-50/50 outline-none focus:bg-white focus:border-primary/30 transition-all font-bold text-sm" 
                         />
                         <p className="text-[9px] text-gray-400 font-medium italic">Appears in search engine results and browser tabs.</p>

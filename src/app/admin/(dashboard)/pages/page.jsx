@@ -222,7 +222,7 @@ export default function PageManagement() {
                               {uploading && <div className="absolute inset-0 bg-white/80 flex items-center justify-center"><div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div></div>}
                           </div>
                           <label className="inline-block cursor-pointer">
-                              <input type="file" className="hidden" accept="image/*" onChange={handleAboutUsImageUpload} disabled={uploading} />
+                              <input type="file" className="hidden" accept=".png,.jpg,.jpeg,.gif,.ico" onChange={handleAboutUsImageUpload} disabled={uploading} />
                               <span className="h-8 px-4 bg-gray-100 text-gray-700 font-bold text-[9px] uppercase rounded-full flex items-center gap-2 hover:bg-gray-200 transition-all">
                                   Upload Brand Image
                               </span>

@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-const DEFAULT_LOGO = "https://kcbazar.com/wp-content/uploads/2025/08/KCB-LOGO-G.png";
+const DEFAULT_LOGO = "";
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -63,11 +63,7 @@ function ResetPasswordForm() {
     <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-[30px] shadow-2xl shadow-gray-200/50 border border-gray-100 animate-fadeIn">
       <div className="text-center">
           <Link href="/" className="inline-block transition-transform hover:scale-105 active:scale-95">
-              <img
-                  src={logoUrl}
-                  alt={`${siteSettings?.siteName || 'KC Bazar'} Logo`}
-                  className="h-10 w-auto mx-auto mb-6"
-              />
+              {logoUrl ? (<img src={logoUrl} alt="Logo" className="w-full h-auto max-h-[50px] object-contain" />) : (<div className="w-16 h-16 mx-auto bg-primary text-white font-black flex items-center justify-center rounded-2xl text-4xl shadow-sm">M</div>)}
           </Link>
           <h2 className="text-3xl font-black tracking-tight text-[#111] uppercase italic">
               New Password

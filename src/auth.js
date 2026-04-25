@@ -13,9 +13,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        otp: { label: "OTP", type: "text" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        if (!credentials?.email) {
           return null;
         }
 
@@ -25,21 +26,57 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           },
         });
 
-        if (!user || (!user.password && user.email)) {
-          return null; // Handle if the user exists but has no password (e.g. used OAuth)
+        if (!user) {
+          return null;
         }
 
         if (user.status === 'suspended') {
           throw new Error("Your account has been suspended. Please contact support.");
         }
 
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
+        // Admin login flow (OTP)
+        if (["admin", "super-admin"].includes(user.role)) {
+          if (!credentials.otp) {
+            throw new Error("OTP is required for admin login.");
+          }
+          
+          if (!user.adminOtp || !user.adminOtpExpiry) {
+            throw new Error("Invalid OTP or expired. Please request a new one.");
+          }
 
-        if (!isPasswordValid) {
-          return null;
+          if (new Date() > user.adminOtpExpiry) {
+            // Clear expired OTP
+            await prisma.user.update({
+              where: { id: user.id },
+              data: { adminOtp: null, adminOtpExpiry: null }
+            });
+            throw new Error("OTP has expired. Please request a new one.");
+          }
+
+          if (user.adminOtp !== credentials.otp) {
+            throw new Error("Invalid OTP code.");
+          }
+
+          // Clear OTP after successful login
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { adminOtp: null, adminOtpExpiry: null }
+          });
+        } 
+        // Customer login flow (Password)
+        else {
+          if (!credentials.password || !user.password) {
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!isPasswordValid) {
+            return null;
+          }
         }
 
         return {

@@ -622,7 +622,7 @@ export default function AdminProducts() {
                 <div className="flex items-center justify-between">
                   <label className="text-[11px] font-black uppercase text-gray-400 tracking-widest">Gallery Images</label>
                   <label className="cursor-pointer text-[10px] font-black uppercase text-primary hover:underline">
-                    <input type="file" className="hidden" accept="image/*" multiple onChange={handleGalleryUpload} disabled={uploading} />
+                    <input type="file" className="hidden" accept=".png,.jpg,.jpeg,.gif,.ico,video/*" multiple onChange={handleGalleryUpload} disabled={uploading} />
                     + Add Images
                   </label>
                 </div>

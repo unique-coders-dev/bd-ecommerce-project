@@ -344,7 +344,7 @@ const CategoryManagement = () => {
                                 <input
                                     ref={fileInputRef}
                                     type="file"
-                                    accept="image/*"
+                                    accept=".png,.jpg,.jpeg,.gif,.ico"
                                     className="hidden"
                                     onChange={handleImageSelect}
                                 />
