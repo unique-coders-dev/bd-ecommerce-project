@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KC Bazar UI Guidelines</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Typography */
+            --font-family-primary: 'Noto Sans Bengali', Arial, Helvetica, sans-serif;
+            --font-size-base: 16px;
+            --font-weight-base: 400;
+            --font-line-height-base: 25.6px;
+            
+            --font-size-xs: 12px;
+            --font-size-sm: 12.8px;
+            --font-size-md: 13px;
+            --font-size-lg: 14px;
+            --font-size-xl: 14.88px;
+            --font-size-2xl: 15px;
+            --font-size-3xl: 16px;
+            --font-size-4xl: 16.32px;
+
+            /* Colors */
+            --color-text-primary: #333333;
+            --color-text-secondary: #242424;
+            --color-text-tertiary: #838383;
+            --color-text-inverse: #767676;
+            --color-text-strong-inverse: #ffffff;
+            
+            --color-surface-base: #000000;
+            --color-surface-muted: #e2528c;
+            --color-surface-raised: #f3f3f3;
+            --color-surface-strong: #ffffff;
+            
+            --color-border-muted: rgba(0, 0, 0, 0.106);
+
+            /* Spacing */
+            --space-1: 5px;
+            --space-2: 8px;
+            --space-3: 10px;
+            --space-4: 12px;
+            --space-5: 14px;
+            --space-6: 15px;
+            --space-7: 18px;
+            --space-8: 20px;
+            --space-12: 32px;
+            --space-16: 48px;
+
+            /* Radii, Shadows, Motion */
+            --radius-xs: 5px;
+            --radius-sm: 35px;
+            --radius-md: 50px;
+            
+            --shadow-1: rgba(0, 0, 0, 0.17) 0px 0px 5px 0px;
+            
+            --motion-duration-instant: 250ms;
+            --motion-duration-fast: 500ms;
+        }
+
+        body {
+            font-family: var(--font-family-primary);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-base);
+            line-height: var(--font-line-height-base);
+            color: var(--color-text-primary);
+            background-color: var(--color-surface-raised);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-16) var(--space-8);
+            background-color: var(--color-surface-strong);
+            box-shadow: var(--shadow-1);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--color-text-secondary);
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-4);
+        }
+
+        h1 {
+            font-size: 32px;
+            border-bottom: 2px solid var(--color-surface-muted);
+            padding-bottom: var(--space-3);
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 24px;
+            border-bottom: 1px solid var(--color-border-muted);
+            padding-bottom: var(--space-2);
+        }
+
+        p, ul, li {
+            margin-bottom: var(--space-4);
+        }
+
+        ul {
+            padding-left: var(--space-8);
+        }
+
+        code {
+            background-color: var(--color-surface-raised);
+            padding: 2px 6px;
+            border-radius: var(--radius-xs);
+            font-family: monospace;
+            font-size: var(--font-size-md);
+            color: var(--color-surface-muted);
+        }
+
+        .component-preview {
+            padding: var(--space-6);
+            border: 1px solid var(--color-border-muted);
+            border-radius: var(--radius-xs);
+            margin-top: var(--space-4);
+            margin-bottom: var(--space-8);
+            background-color: var(--color-surface-strong);
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        /* Example Button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-surface-muted);
+            color: var(--color-text-strong-inverse);
+            padding: var(--space-4) var(--space-6);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-md);
+            font-family: var(--font-family-primary);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all var(--motion-duration-instant) ease;
+        }
+
+        .btn:hover:not(:disabled) {
+            filter: brightness(0.9);
+        }
+
+        .btn:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--color-surface-strong), 0 0 0 4px var(--color-surface-muted);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Example Card */
+        .card {
+            border-radius: var(--radius-xs);
+            box-shadow: var(--shadow-1);
+            padding: var(--space-4);
+            background-color: var(--color-surface-strong);
+            transition: all var(--motion-duration-fast) ease;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 10px 15px -5px;
+        }
+
+        .card-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: var(--space-2);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        /* Example Input */
+        .input-group {
+            width: 100%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-label {
+            margin-bottom: var(--space-2);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-lg);
+        }
+
+        .input-field {
+            width: 100%;
+            box-sizing: border-box;
+            padding: var(--space-3);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-xs);
+            font-family: var(--font-family-primary);
+            font-size: var(--font-size-base);
+            transition: all var(--motion-duration-instant) ease;
+        }
+
+        .input-field:focus-visible {
+            outline: none;
+            border-color: var(--color-surface-muted);
+            box-shadow: 0 0 0 2px rgba(226, 82, 140, 0.2);
+        }
+
+        .input-field.error {
+            border-color: #d93025;
+        }
+
+        .error-text {
+            color: #d93025;
+            font-size: var(--font-size-xs);
+            margin-top: var(--space-1);
+            display: block;
+        }
+
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            margin-bottom: var(--space-3);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--color-surface-muted);
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .checklist label {
+            cursor: pointer;
+            line-height: 1.5;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: var(--color-surface-raised);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>KC Bazar UI Guidelines</h1>
+
+        <section>
+            <h2>1. Context and Goals</h2>
+            <p><strong>Mission:</strong> Create implementation-ready, token-driven UI guidance for KC Bazar that is optimized for consistency, accessibility, and fast delivery across the e-commerce storefront.</p>
+            <p><strong>Design Intent:</strong> To provide a structured, content-first, and highly accessible e-commerce experience for online shoppers that feels confident, reliable, and premium.</p>
+        </section>
+
+        <section>
+            <h2>2. Design Tokens and Foundations</h2>
+            <p>All components <strong>must</strong> utilize the semantic tokens defined below. Raw hex values and one-off pixel values are strictly prohibited.</p>
+
+            <h3>Typography</h3>
+            <ul>
+                <li><strong>Primary Font:</strong> <code>font.family.primary = Noto Sans Bengali</code></li>
+                <li><strong>Font Stack:</strong> <code>font.family.stack = Noto Sans Bengali, Arial, Helvetica, sans-serif</code></li>
+                <li><strong>Base Style:</strong> <code>font.size.base = 16px</code> | <code>font.weight.base = 400</code> | <code>font.lineHeight.base = 25.6px</code></li>
+                <li><strong>Typography Scale:</strong> <code>xs=12px</code>, <code>sm=12.8px</code>, <code>md=13px</code>, <code>lg=14px</code>, <code>xl=14.88px</code>, <code>2xl=15px</code>, <code>3xl=16px</code>, <code>4xl=16.32px</code></li>
+            </ul>
+
+            <h3>Color Palette</h3>
+            <ul>
+                <li><strong>Text:</strong> <code>primary = #333333</code>, <code>secondary = #242424</code>, <code>tertiary = #838383</code>, <code>inverse = #767676</code></li>
+                <li><strong>Surface:</strong> <code>base = #000000</code>, <code>muted = #e2528c</code> <span class="status-badge" style="background:#e2528c; color:white;">Primary Brand</span>, <code>raised = #f3f3f3</code>, <code>strong = #ffffff</code></li>
+                <li><strong>Border:</strong> <code>muted = rgba(0, 0, 0, 0.106)</code></li>
+            </ul>
+
+            <h3>Spacing Scale & Radii</h3>
+            <ul>
+                <li><strong>Spacing:</strong> <code>space.1 = 5px</code>, <code>space.2 = 8px</code>, <code>space.3 = 10px</code>, <code>space.4 = 12px</code>, <code>space.5 = 14px</code>, <code>space.6 = 15px</code>, <code>space.7 = 18px</code>, <code>space.8 = 20px</code></li>
+                <li><strong>Radii:</strong> <code>xs = 5px</code>, <code>sm = 35px</code>, <code>md = 50px</code></li>
+                <li><strong>Shadow:</strong> <code>shadow.1 = rgba(0, 0, 0, 0.17) 0px 0px 5px 0px</code></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Component-Level Rules & Previews</h2>
+            <p>Every component <strong>must</strong> define states for: Default, Hover, Focus-Visible, Active, Disabled, Loading, and Error.</p>
+
+            <h3>Buttons</h3>
+            <p><strong>Tokens:</strong> Use <code>space.4</code> vertical and <code>space.6</code> horizontal padding. <code>radius.sm</code>.</p>
+            <div class="component-preview">
+                <button class="btn">Add to Cart</button>
+                <button class="btn" style="filter: brightness(0.9);">Hover State</button>
+                <button class="btn" disabled>Out of Stock (Disabled)</button>
+            </div>
+
+            <h3>Cards</h3>
+            <p><strong>Tokens:</strong> Container <code>radius.xs</code>, <code>shadow.1</code>. Internal padding <code>space.4</code>.</p>
+            <div class="component-preview">
+                <div class="card">
+                    <div style="background-color: var(--color-surface-raised); height: 160px; border-radius: var(--radius-xs); margin-bottom: var(--space-4); display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary);">Image Area</div>
+                    <h4 class="card-title">Premium Wireless Headphones with Active Noise Cancellation</h4>
+                    <p style="font-weight: 600; color: var(--color-surface-muted); margin-bottom: var(--space-4);">৳ 2,500</p>
+                    <button class="btn" style="width: 100%; border-radius: var(--radius-xs);">Add to Cart</button>
+                </div>
+            </div>
+
+            <h3>Inputs</h3>
+            <p><strong>Tokens:</strong> Input Field <code>radius.xs</code>.</p>
+            <div class="component-preview">
+                <div class="input-group">
+                    <label class="input-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="input-field" placeholder="Enter your email">
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="email-error">Email Address (Error State)</label>
+                    <input type="email" id="email-error" class="input-field error" placeholder="Enter your email" aria-invalid="true" value="invalid-email@">
+                    <span class="error-text">Please enter a valid email address.</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Accessibility Requirements</h2>
+            <ul>
+                <li><strong>Target:</strong> WCAG 2.2 AA compliance is mandatory.</li>
+                <li><strong>Keyboard-First:</strong> All interactive elements <strong>must</strong> be fully functional using only a keyboard (<code>Tab</code>, <code>Space</code>, <code>Enter</code>).</li>
+                <li><strong>Focus-Visible:</strong> Custom focus rings <strong>must</strong> be explicitly defined using <code>:focus-visible</code>.</li>
+                <li><strong>Contrast:</strong> Text <strong>must</strong> meet a minimum contrast ratio of 4.5:1 against its background.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>5. QA Checklist</h2>
+            <p>Before any component or page implementation is merged, it <strong>must</strong> pass the following quality gates:</p>
+            <ul class="checklist">
+                <li><input type="checkbox" id="qa1"> <label for="qa1"><strong>Tokens Only:</strong> Are all colors, typography, spacing, and radii using official semantic tokens?</label></li>
+                <li><input type="checkbox" id="qa2"> <label for="qa2"><strong>All States Accounted For:</strong> Are Default, Hover, Focus-Visible, Active, Disabled, Loading, and Error states functional?</label></li>
+                <li><input type="checkbox" id="qa3"> <label for="qa3"><strong>Keyboard Navigable:</strong> Can a user interact with the component using only a keyboard?</label></li>
+                <li><input type="checkbox" id="qa4"> <label for="qa4"><strong>Focus Visible:</strong> Does the component clearly show when it has focus?</label></li>
+                <li><input type="checkbox" id="qa5"> <label for="qa5"><strong>Contrast Check:</strong> Does the text contrast meet WCAG 2.2 AA standards?</label></li>
+                <li><input type="checkbox" id="qa6"> <label for="qa6"><strong>Touch Targets:</strong> Are interactive elements a minimum of 44x44px on touch devices?</label></li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>
